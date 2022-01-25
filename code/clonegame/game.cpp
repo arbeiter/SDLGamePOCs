@@ -8,6 +8,7 @@ Game::Game()
 
 bool Game::initialize() {
 	// Initialize SDL
+  mIsRunning = true;
 	int sdlResult = SDL_Init(SDL_INIT_VIDEO);
 	if (sdlResult != 0)
 	{
@@ -48,14 +49,42 @@ bool Game::initialize() {
 
 void Game::runLoop() 
 {
+	while (mIsRunning)
+	{
+		processInput();
+		updateGame();
+		generateOutput();
+	}
 }
 
 void Game::shutDown()
 {
+	SDL_DestroyRenderer(mRenderer);
+	SDL_DestroyWindow(mWindow);
+	SDL_Quit();
 }
 
 void Game::processInput()
 {
+	SDL_Event event;
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+			// If we get an SDL_QUIT event, end loop
+			case SDL_QUIT:
+				mIsRunning = false;
+				break;
+		}
+
+    // Get state of keyboard
+    const Uint8* state = SDL_GetKeyboardState(NULL);
+    // If escape is pressed, also end loop
+    if (state[SDL_SCANCODE_ESCAPE])
+    {
+      mIsRunning = false;
+    }
+	}
 }
 
 void Game::updateGame()
@@ -64,4 +93,16 @@ void Game::updateGame()
 
 void Game::generateOutput()
 {
+	// Set draw color to blue
+	SDL_SetRenderDrawColor(
+		mRenderer,
+		0,		// R
+		0,		// G 
+		0,	// B
+		255		// A
+	);
+	
+	// Clear back buffer
+	SDL_RenderClear(mRenderer);
+  SDL_RenderPresent(mRenderer);
 }

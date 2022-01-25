@@ -1,5 +1,7 @@
 #pragma once
 #include "SDL2/SDL.h"
+#include <ostream>
+#include <iostream>
 
 class Game
 {
@@ -13,7 +15,8 @@ class Game
     void processInput();
     void updateGame();
     void generateOutput();
-
-  SDL_Window* mWindow;
-  SDL_Renderer* mRenderer;
+    
+    bool mIsRunning;
+    SDL_Window* mWindow;
+    SDL_Renderer* mRenderer;
 };
