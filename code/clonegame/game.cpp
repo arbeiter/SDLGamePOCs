@@ -53,6 +53,8 @@ bool Game::initialize() {
   mPaddlePos.y = 768.0f/2.0f;
   mBallPos.x = 1024.0f/2.0f;
   mBallPos.y = 768.0f/2.0f;
+  mBallVel.x = -200.0f;
+  mBallVel.y = 235.0f;
   return true;
 }
 
@@ -114,10 +116,50 @@ void Game::updateGame()
   if(deltaTime > 0.05f) {
     deltaTime = 0.05f;
   }
+
   mTicksCount = SDL_GetTicks();
   if (mPaddleDir != 0)
   {
     mPaddlePos.y += mPaddleDir * 300.0f * deltaTime;
+    if(mPaddlePos.y < (paddleH/2.0f + thickness)) {
+      mPaddlePos.y = paddleH/2.0f + thickness;
+    }
+    else if (mPaddlePos.y > (768.0f - paddleH/2.0f - thickness)) 
+    {
+      mPaddlePos.y = 768.0f - paddleH/2.0f - thickness;
+    }
+  }
+  mBallPos.x += mBallVel.x * deltaTime;
+  mBallPos.y  += mBallVel.y * deltaTime;
+
+  float diff = mPaddlePos.y - mBallPos.y;
+  diff = (diff > 0.0f) ? diff : -diff;
+
+  if(diff <= paddleH / 2.0f && 
+     mBallPos.x <= 25.0f && mBallPos.x >= 20.0f &&
+     mBallVel.x < 0.0f) 
+  {
+    mBallVel.x *= -1.0f;
+  }
+  else if(mBallPos.x <= 0.0f)
+  {
+    mIsRunning = false;
+  }
+  else if (mBallPos.x >= (1024.0f - thickness) && mBallVel.x > 0.0f)
+  {
+    mBallVel.x *= -1.0f;
+  }
+  
+  // top wall
+  if(mBallPos.y <= thickness && mBallVel.y < 0.0f)
+  {
+    mBallVel.y *= -1;
+  } 
+  // Did the ball collide with the bottom wall?
+  else if(mBallPos.y >= (768 - thickness) &&
+          mBallVel.y > 0.0f)
+  {
+    mBallVel.y *= -1;
   }
 }
 
