@@ -4,50 +4,50 @@ const int thickness = 15;
 const float paddleH = 100.0f;
 
 Game::Game()
-:mWindow(nullptr)
-,mRenderer(nullptr)
+  :mWindow(nullptr)
+  ,mRenderer(nullptr)
+  ,mTicksCount(0)
 {
 }
 
 bool Game::initialize() {
-	// Initialize SDL
+  // Initialize SDL
   mIsRunning = true;
-	int sdlResult = SDL_Init(SDL_INIT_VIDEO);
-	if (sdlResult != 0)
-	{
-		SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
-		return false;
-	}
-	
-	// Create an SDL Window
-	mWindow = SDL_CreateWindow(
-		"Pong Clone",
-		100,	// Top left x-coordinate of window
-		100,	// Top left y-coordinate of window
-		1024,	// Width of window
-		768,	// Height of window
-		0		// Flags (0 for no flags set)
-	);
+  int sdlResult = SDL_Init(SDL_INIT_VIDEO);
+  if (sdlResult != 0)
+  {
+    SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
+    return false;
+  }
 
-	if (!mWindow)
-	{
-		SDL_Log("Failed to create window: %s", SDL_GetError());
-		return false;
-	}
-	
-	//// Create SDL renderer
-	mRenderer = SDL_CreateRenderer(
-		mWindow, // Window to create renderer for
-		-1,		 // Usually -1
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
-	);
+  // Create an SDL Window
+  mWindow = SDL_CreateWindow(
+      "Pong Clone",
+      100,	// Top left x-coordinate of window
+      100,	// Top left y-coordinate of window
+      1024,	// Width of window
+      768,	// Height of window
+      0		// Flags (0 for no flags set)
+      );
 
-	if (!mRenderer)
-	{
-		SDL_Log("Failed to create renderer: %s", SDL_GetError());
-		return false;
-	}
+  if (!mWindow)
+  {
+    SDL_Log("Failed to create window: %s", SDL_GetError());
+    return false;
+  }
 
+  //// Create SDL renderer
+  mRenderer = SDL_CreateRenderer(
+      mWindow, // Window to create renderer for
+      -1,		 // Usually -1
+      SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+      );
+
+  if (!mRenderer)
+  {
+    SDL_Log("Failed to create renderer: %s", SDL_GetError());
+    return false;
+  }
 
   mPaddlePos.x = 10.0f;
   mPaddlePos.y = 768.0f/2.0f;
@@ -58,33 +58,34 @@ bool Game::initialize() {
 
 void Game::runLoop() 
 {
-	while (mIsRunning)
-	{
-		processInput();
-		updateGame();
-		generateOutput();
-	}
+  while (mIsRunning)
+  {
+    processInput();
+    updateGame();
+    generateOutput();
+  }
 }
 
 void Game::shutDown()
 {
-	SDL_DestroyRenderer(mRenderer);
-	SDL_DestroyWindow(mWindow);
-	SDL_Quit();
+  SDL_DestroyRenderer(mRenderer);
+  SDL_DestroyWindow(mWindow);
+  SDL_Quit();
 }
 
 void Game::processInput()
 {
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-			// If we get an SDL_QUIT event, end loop
-			case SDL_QUIT:
-				mIsRunning = false;
-				break;
-		}
+  mPaddleDir = 0;
+  SDL_Event event;
+  while (SDL_PollEvent(&event))
+  {
+    switch (event.type)
+    {
+      // If we get an SDL_QUIT event, end loop
+      case SDL_QUIT:
+        mIsRunning = false;
+        break;
+    }
 
     // Get state of keyboard
     const Uint8* state = SDL_GetKeyboardState(NULL);
@@ -93,11 +94,31 @@ void Game::processInput()
     {
       mIsRunning = false;
     }
-	}
+    if (state[SDL_SCANCODE_W])
+    {
+      mPaddleDir -= 1;
+    }
+    if (state[SDL_SCANCODE_S])
+    {
+      mPaddleDir += 1;
+    }
+  }
 }
 
 void Game::updateGame()
 {
+  while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16))
+    ;
+  float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+
+  if(deltaTime > 0.05f) {
+    deltaTime = 0.05f;
+  }
+  mTicksCount = SDL_GetTicks();
+  if (mPaddleDir != 0)
+  {
+    mPaddlePos.y += mPaddleDir * 300.0f * deltaTime;
+  }
 }
 
 void Game::generateOutput()

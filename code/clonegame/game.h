@@ -28,4 +28,6 @@ class Game
 
     Vector2 mPaddlePos;
     Vector2 mBallPos;
+    int mTicksCount;
+    float mPaddleDir;
 };
