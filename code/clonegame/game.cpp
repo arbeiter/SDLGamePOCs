@@ -1,6 +1,7 @@
 #include "game.h"
 
 const int thickness = 15;
+const float paddleH = 100.0f;
 
 Game::Game()
 :mWindow(nullptr)
@@ -46,6 +47,12 @@ bool Game::initialize() {
 		SDL_Log("Failed to create renderer: %s", SDL_GetError());
 		return false;
 	}
+
+
+  mPaddlePos.x = 10.0f;
+  mPaddlePos.y = 768.0f/2.0f;
+  mBallPos.x = 1024.0f/2.0f;
+  mBallPos.y = 768.0f/2.0f;
   return true;
 }
 
@@ -127,6 +134,22 @@ void Game::generateOutput()
 	wall.w = thickness;
 	wall.h = 1024;
 	SDL_RenderFillRect(mRenderer, &wall);
+
+  SDL_Rect ball{
+    static_cast<int>(mBallPos.x - thickness/2),
+    static_cast<int>(mBallPos.y  - thickness/2),
+    thickness,
+    thickness
+  };
+	SDL_RenderFillRect(mRenderer, &ball);
+
+  SDL_Rect paddle{
+    static_cast<int>(mPaddlePos.x),
+    static_cast<int>(mPaddlePos.y - paddleH/2),
+    thickness,
+    static_cast<int>(paddleH)
+  };
+	SDL_RenderFillRect(mRenderer, &paddle);
 
   SDL_RenderPresent(mRenderer);
 }

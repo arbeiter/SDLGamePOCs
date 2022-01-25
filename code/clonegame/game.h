@@ -3,6 +3,12 @@
 #include <ostream>
 #include <iostream>
 
+struct Vector2
+{
+	float x;
+	float y;
+};
+
 class Game
 {
   public:
@@ -19,4 +25,7 @@ class Game
     bool mIsRunning;
     SDL_Window* mWindow;
     SDL_Renderer* mRenderer;
+
+    Vector2 mPaddlePos;
+    Vector2 mBallPos;
 };
