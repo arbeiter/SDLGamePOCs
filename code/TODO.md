@@ -37,7 +37,6 @@
    vector<SDL_Texture*> mAnimTextures
    mCurrFrame
    mAnimFPS
-
   
 # BGSpriteComponent
     BGSpriteComponent(Actor *owner, drawOrder)
@@ -58,6 +57,7 @@
     SetTexture(texture)
 
     mTexture, DrawOrder, TexWidth, TexHeight
+
 # Game class details
 
 ## Game Init
@@ -237,17 +237,12 @@ CircleComponent ``*circle``
       a. Compute intersection with asteriod circle using intersect
       b. if asteroid intersection happens, mark asteroid as dead
 
-
-
-
-
-
-
 # Resources
 
 thatgamesguy.uk
 TileMaps:
 https://github.com/connorkuehl/sdl2-tiled-example/blob/master/src/level.hpp
+https://code.austinmorlan.com/austin/ecs/src/branch/master/Source
 
 
 
