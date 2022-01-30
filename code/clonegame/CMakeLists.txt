@@ -2,6 +2,8 @@ add_executable (clonegame
   main.cpp
   game.cpp
   game.h
+  textureManager.h
+  textureManager.cpp
 )
 
 include_directories(${SDL2_INCLUDE_DIRS})

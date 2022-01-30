@@ -1,4 +1,5 @@
 #include "game.h"
+#include "textureManager.h"
 
 Game::Game()
   :mWindow(nullptr)
