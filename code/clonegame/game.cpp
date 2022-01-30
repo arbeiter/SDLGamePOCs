@@ -68,7 +68,6 @@ void Game::shutDown()
 
 void Game::processInput()
 {
-  mPaddleDir = 0;
   SDL_Event event;
   while (SDL_PollEvent(&event))
   {
@@ -119,4 +118,18 @@ void Game::generateOutput()
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
   SDL_RenderPresent(mRenderer);
+}
+
+SDL_Texture* Game::LoadTexture(const char* texture)
+{
+	SDL_Surface* tempSurface = IMG_Load(texture);
+	SDL_Texture* tex = SDL_CreateTextureFromSurface(mRenderer, tempSurface);
+	SDL_FreeSurface(tempSurface);
+	
+	return tex;
+}
+
+void Game::Draw(SDL_Texture * tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip)
+{
+	SDL_RenderCopyEx(mRenderer, tex, &src, &dest, NULL, NULL, flip);
 }

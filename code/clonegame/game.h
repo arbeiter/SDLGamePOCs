@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
 #include <ostream>
 #include <iostream>
 
@@ -26,9 +27,7 @@ class Game
     SDL_Window* mWindow;
     SDL_Renderer* mRenderer;
 
-    Vector2 mPaddlePos;
-    Vector2 mBallPos;
-    Vector2 mBallVel;
     int mTicksCount;
-    float mPaddleDir;
+    SDL_Texture* LoadTexture(const char* fileName);
+    void Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip);
 };
