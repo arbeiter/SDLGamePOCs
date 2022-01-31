@@ -40,6 +40,7 @@ bool Game::initialize() {
       -1,		 // Usually -1
       SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
       );
+  IMG_Init(IMG_INIT_PNG);
 
   if (!mRenderer)
   {
@@ -64,6 +65,7 @@ void Game::shutDown()
 {
   SDL_DestroyRenderer(mRenderer);
   SDL_DestroyWindow(mWindow);
+  IMG_Quit();
   SDL_Quit();
 }
 
@@ -118,19 +120,10 @@ void Game::generateOutput()
 	SDL_RenderClear(mRenderer);
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
+  TextureManager texManager = TextureManager(mRenderer);
+  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/hulking_knight.png");
+  texManager.RenderTexture(bitmapTex, 0, 0);
+  std::cout << "Render Texture" << std::endl;
+
   SDL_RenderPresent(mRenderer);
-}
-
-SDL_Texture* Game::LoadTexture(const char* texture)
-{
-	SDL_Surface* tempSurface = IMG_Load(texture);
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(mRenderer, tempSurface);
-	SDL_FreeSurface(tempSurface);
-	
-	return tex;
-}
-
-void Game::Draw(SDL_Texture * tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip)
-{
-	SDL_RenderCopyEx(mRenderer, tex, &src, &dest, NULL, NULL, flip);
 }

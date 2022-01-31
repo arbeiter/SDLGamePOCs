@@ -9,3 +9,4 @@ add_subdirectory(clonegame)
 
 set(APPLICATION_NAME ${PROJECT_NAME})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
+file(COPY "${PROJECT_SOURCE_DIR}/res" DESTINATION "${PROJECT_SOURCE_DIR}/bin/clonegame")
