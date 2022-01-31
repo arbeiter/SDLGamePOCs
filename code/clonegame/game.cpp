@@ -123,11 +123,9 @@ void Game::generateOutput()
   TextureManager texManager = TextureManager(mRenderer);
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/background.jpg");
   texManager.RenderTexture(bitmapTex, 0, 0);
-  std::cout << "Render Texture" << std::endl;
 
-  bitmapTex = texManager.LoadTexture("./res/hulking_knight.png");
-  texManager.RenderTexture(bitmapTex, 0, 0);
-  std::cout << "Render Texture" << std::endl;
+  bitmapTex = texManager.LoadTexture("./res/arc1.png");
+  texManager.ClipTexture(bitmapTex, 34, 32, 38, 55, 100, 100);
 
   SDL_RenderPresent(mRenderer);
 }
