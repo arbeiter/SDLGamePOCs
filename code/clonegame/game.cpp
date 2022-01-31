@@ -40,7 +40,7 @@ bool Game::initialize() {
       -1,		 // Usually -1
       SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
       );
-  IMG_Init(IMG_INIT_PNG);
+  IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
   if (!mRenderer)
   {
@@ -121,7 +121,11 @@ void Game::generateOutput()
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
   TextureManager texManager = TextureManager(mRenderer);
-  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/hulking_knight.png");
+  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/background.jpg");
+  texManager.RenderTexture(bitmapTex, 0, 0);
+  std::cout << "Render Texture" << std::endl;
+
+  bitmapTex = texManager.LoadTexture("./res/hulking_knight.png");
   texManager.RenderTexture(bitmapTex, 0, 0);
   std::cout << "Render Texture" << std::endl;
 
