@@ -12,7 +12,7 @@ class TextureManager {
     void RenderTexture(SDL_Texture *tex, int x, int y);
     void RenderTexture(SDL_Texture *tex, int x, int y, int w, int h); 
     SDL_Texture* LoadTexture(const char* texture);
-    void ClipTexture(SDL_Texture *tex, int x, int y, int w, int h, int dest_w, int dest_h); 
+    void ClipTexture(SDL_Texture *tex, float x, float y, int w, int h, int p_x, int p_y, int p_w, int p_h); 
 
   private:
     SDL_Renderer *mRenderer;

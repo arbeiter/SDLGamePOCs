@@ -9,6 +9,15 @@ Game::Game()
 }
 
 bool Game::initialize() {
+
+  direction = 1;
+  frameNumber = 0;
+  position = 0.0f;
+  PlayerX = 0;
+  PlayerY = 0;
+  player_vel.x = 10.0f;
+  player_vel.y = 10.0f;
+
   // Initialize SDL
   mIsRunning = true;
   int sdlResult = SDL_Init(SDL_INIT_VIDEO);
@@ -89,6 +98,15 @@ void Game::processInput()
     {
       mIsRunning = false;
     }
+
+    if (state[SDL_SCANCODE_W])
+    {
+      direction = -1;
+    }
+    if (state[SDL_SCANCODE_S])
+    {
+      direction = 1;
+    }
   }
 }
 
@@ -102,6 +120,18 @@ void Game::updateGame()
     deltaTime = 0.05f;
   }
 
+  frameNumber += 1;
+  position += deltaTime;
+
+  PlayerX += direction * player_vel.x * deltaTime;
+  PlayerY += direction * player_vel.y * deltaTime;
+
+  if(frameNumber > 3) {
+    frameNumber = 0;
+  }
+  if(position > 1000) {
+    position = 0;
+  }
   mTicksCount = SDL_GetTicks();
 }
 
@@ -123,9 +153,30 @@ void Game::generateOutput()
   TextureManager texManager = TextureManager(mRenderer);
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/background.jpg");
   texManager.RenderTexture(bitmapTex, 0, 0);
-
-  bitmapTex = texManager.LoadTexture("./res/arc1.png");
-  texManager.ClipTexture(bitmapTex, 34, 32, 38, 55, 100, 100);
+  moveCharacter();
 
   SDL_RenderPresent(mRenderer);
+}
+
+void Game::moveCharacter() {
+  TextureManager texManager = TextureManager(mRenderer);
+  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/tile.png");
+
+  float clip_x;
+  float clip_y;
+  int clip_w, clip_h; 
+  int player_x, player_y, player_w, player_h;
+
+  clip_h = 48; 
+  clip_w = 48;
+
+  clip_x = (frameNumber + 1)* clip_w;  // src_w + x
+  clip_y = 0; 
+  
+  player_x = PlayerX;
+  player_y = PlayerY;
+  player_w = 96;
+  player_h = 96;
+
+  texManager.ClipTexture(bitmapTex, clip_x, clip_y, clip_h, clip_w, player_x, player_y, player_h, player_w);
 }

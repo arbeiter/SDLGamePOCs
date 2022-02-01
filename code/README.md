@@ -15,7 +15,8 @@ Day 0: Floating grass
 
 ## Task List
 4 hours a day
-Day 1:
+
+Day 1: 3 hours
 
 POC1:
 - Load image of character and render(Done: 2
@@ -28,6 +29,7 @@ POC2:
 - Repeat images over area of window
 - Clipping textures
 
+Day 2: 3 hours
 POC3:
 - Move image around screen
 - Load background and render
@@ -37,7 +39,9 @@ POC4:
 - Image should animate with sprite sheet
 - It should move around
 
-Day 2:
+Day 3:
+
+- Objects
 - Collision based on circles
 - Enemies
 - Random movement of enemies
@@ -67,3 +71,8 @@ Day 8:
 
 https://indiegamedev.net/2020/05/19/an-entity-component-system-with-data-locality-in-cpp/
 https://gameprogrammingpatterns.com/component.html
+
+## Commands:
+
+montage font_[1-7].png -tile 8x1 -geometry 16x16+1+1 -background none tile_9x1.png
+

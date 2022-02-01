@@ -22,7 +22,7 @@ void TextureManager::RenderTexture(SDL_Texture *tex, int x, int y, int w, int h)
 	SDL_RenderCopy(mRenderer, tex, NULL, &dst);
 }
 
-void TextureManager::ClipTexture(SDL_Texture *tex, int x, int y, int w, int h, int dest_w, int dest_h) {
+void TextureManager::ClipTexture(SDL_Texture *tex, float x, float y, int w, int h, int p_x, int p_y, int p_w, int p_h) {
 	SDL_Rect src;
   int tex_w, tex_h;
 	SDL_QueryTexture(tex, NULL, NULL, &tex_w, &tex_h);
@@ -32,10 +32,10 @@ void TextureManager::ClipTexture(SDL_Texture *tex, int x, int y, int w, int h, i
   src.h = h;
 
 	SDL_Rect dst;
-	dst.x = 0;
-	dst.y = 0;
-	dst.w = dest_w;
-	dst.h = dest_h;
+	dst.x = p_x;
+	dst.y = p_y;
+	dst.w = p_w;
+	dst.h = p_h;
 	SDL_RenderCopy(mRenderer, tex, &src, &dst);
 }
 
