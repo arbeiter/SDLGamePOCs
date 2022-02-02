@@ -118,6 +118,10 @@ void Game::generateOutput()
 	SDL_RenderClear(mRenderer);
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
+  TextureManager texManager = TextureManager(mRenderer);
+  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/grass.png");
+  texManager.RenderTexture(bitmapTex, 0, 0);
+
   SDL_RenderPresent(mRenderer);
 }
 

@@ -14,3 +14,4 @@ target_include_directories(clonegame PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(clonegame ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 target_link_libraries(clonegame SDL2::Image
   SDL2::Main)
+file(COPY "${PROJECT_SOURCE_DIR}/res" DESTINATION "${PROJECT_SOURCE_DIR}/bin/clonegame")
