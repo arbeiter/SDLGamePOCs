@@ -27,8 +27,8 @@ void TextureManager::ClipTexture(SDL_Texture *tex, float x, float y, int w, int 
 	SDL_QueryTexture(tex, NULL, NULL, &tex_w, &tex_h);
   src.x = x; 
   src.y = y;
-  src.w = w;
-  src.h = h;
+  src.w = tex_w;
+  src.h = tex_h;
 
 	SDL_Rect dst;
 	dst.x = p_x;

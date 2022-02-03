@@ -22,6 +22,7 @@ class Game
     void processInput();
     void updateGame();
     void generateOutput();
+    void FillScreenWithGrass();
     
     bool mIsRunning;
     SDL_Window* mWindow;

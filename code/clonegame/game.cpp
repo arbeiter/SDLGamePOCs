@@ -7,6 +7,8 @@ Game::Game()
   ,mTicksCount(0)
 {
 }
+int SCREEN_WIDTH = 1024;
+int SCREEN_HEIGHT = 768;
 
 bool Game::initialize() {
   // Initialize SDL
@@ -117,12 +119,33 @@ void Game::generateOutput()
 	// Clear back buffer
 	SDL_RenderClear(mRenderer);
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
+  FillScreenWithGrass();
+  SDL_RenderPresent(mRenderer);
+}
 
+void Game::FillScreenWithGrass() {
   TextureManager texManager = TextureManager(mRenderer);
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/grass.png");
-  texManager.RenderTexture(bitmapTex, 0, 0);
 
-  SDL_RenderPresent(mRenderer);
+  int w, h;
+
+  SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
+  // int num_cols = (int) SCREEN_WIDTH / w;
+  // int num_rows = (int) SCREEN_HEIGHT / h;
+
+  // 80, 18
+  int x_w = w-2;
+  int x_h = h;
+
+  std::cout << "BEGIN";
+  for (int i = 0; i < SCREEN_HEIGHT; i++) {
+    for (int j = 0; j <= SCREEN_WIDTH; j++) {
+      // Wtf why are j and i reversed
+      texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, j, i, w+5, h+5);
+      j+=w;
+    }
+    i+=h;
+  }
 }
 
 SDL_Texture* Game::LoadTexture(const char* texture)
@@ -130,7 +153,6 @@ SDL_Texture* Game::LoadTexture(const char* texture)
 	SDL_Surface* tempSurface = IMG_Load(texture);
 	SDL_Texture* tex = SDL_CreateTextureFromSurface(mRenderer, tempSurface);
 	SDL_FreeSurface(tempSurface);
-	
 	return tex;
 }
 
