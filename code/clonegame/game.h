@@ -23,7 +23,8 @@ class Game
     void updateGame();
     void generateOutput();
     void FillScreenWithGrass();
-    
+    void WallLayer(); 
+
     bool mIsRunning;
     SDL_Window* mWindow;
     SDL_Renderer* mRenderer;

@@ -120,6 +120,7 @@ void Game::generateOutput()
 	SDL_RenderClear(mRenderer);
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
   FillScreenWithGrass();
+  WallLayer();
   SDL_RenderPresent(mRenderer);
 }
 
@@ -137,7 +138,6 @@ void Game::FillScreenWithGrass() {
   int x_w = w-2;
   int x_h = h;
 
-  std::cout << "BEGIN";
   for (int i = 0; i < SCREEN_HEIGHT; i++) {
     for (int j = 0; j <= SCREEN_WIDTH; j++) {
       // Wtf why are j and i reversed
@@ -145,6 +145,35 @@ void Game::FillScreenWithGrass() {
       j+=w;
     }
     i+=h;
+  }
+}
+
+void Game::WallLayer() {
+  int rr[4][4] = {{1,1,1,1}, {1,0,0,1}, {1,0,0,1}, {1,1,1,1}};
+  TextureManager texManager = TextureManager(mRenderer);
+  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/wall.png");
+
+  int w, h;
+
+  SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
+  int x_w = w;
+  int x_h = h;
+
+  int coord_x, coord_y;
+  std::cout << w << h << std::endl;
+
+  coord_x = 0;
+  coord_y = 0;
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j <4; j++) {
+      if(rr[i][j] == 1) {
+        texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_x, coord_y, w, h);
+        std::cout << i << j << std::endl;
+      }
+      coord_y += w;
+    }
+    coord_y = 0;
+    coord_x += h;
   }
 }
 
