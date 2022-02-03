@@ -149,7 +149,17 @@ void Game::FillScreenWithGrass() {
 }
 
 void Game::WallLayer() {
-  int rr[4][4] = {{1,1,1,1}, {1,0,0,1}, {1,0,0,1}, {1,1,1,1}};
+  int rr[11][16] = {{1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                  {1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}};
   TextureManager texManager = TextureManager(mRenderer);
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/wall.png");
 
@@ -164,10 +174,10 @@ void Game::WallLayer() {
 
   coord_x = 0;
   coord_y = 0;
-  for (int i = 0; i < 4; i++) {
-    for (int j = 0; j <4; j++) {
+  for (int i = 0; i < 11; i++) {
+    for (int j = 0; j <16; j++) {
       if(rr[i][j] == 1) {
-        texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_x, coord_y, w, h);
+        texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_y, coord_x, w, h);
         std::cout << i << j << std::endl;
       }
       coord_y += w;
