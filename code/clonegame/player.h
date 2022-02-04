@@ -1,13 +1,14 @@
 #pragma once
+#include "textureManager.h"
+#include <string>
 
 class Player
 {
-  int x, y;
-  float mvelX, mVely;
-  int width;
-  int height;
-
   public:
+    int x, y;
+    float mvelX, mVely;
+    int width;
+    int height;
     Player(int posx, int posy): x(posx), y(posy) {};
-    void draw(string texName, int width, int height);
+    void draw(TextureManager *texManager);
 };

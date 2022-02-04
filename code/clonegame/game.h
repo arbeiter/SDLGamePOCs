@@ -3,6 +3,7 @@
 #include "SDL2/SDL_image.h"
 #include <ostream>
 #include <iostream>
+#include "player.h"
 
 struct Vector2
 {
@@ -24,8 +25,10 @@ class Game
     void generateOutput();
     void FillScreenWithGrass();
     void WallLayer(); 
+    void DrawActor();
 
     bool mIsRunning;
+    Player mPlayer;
     SDL_Window* mWindow;
     SDL_Renderer* mRenderer;
 

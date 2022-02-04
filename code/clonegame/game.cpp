@@ -5,8 +5,10 @@ Game::Game()
   :mWindow(nullptr)
   ,mRenderer(nullptr)
   ,mTicksCount(0)
+  ,mPlayer(0,0)
 {
 }
+
 int SCREEN_WIDTH = 1024;
 int SCREEN_HEIGHT = 768;
 
@@ -48,6 +50,7 @@ bool Game::initialize() {
     SDL_Log("Failed to create renderer: %s", SDL_GetError());
     return false;
   }
+  mPlayer = Player(0, 300);
 
   return true;
 }
@@ -121,7 +124,13 @@ void Game::generateOutput()
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
   FillScreenWithGrass();
   WallLayer();
+  DrawActor();
   SDL_RenderPresent(mRenderer);
+}
+
+void Game::DrawActor() {
+  TextureManager texManager = TextureManager(mRenderer);
+  mPlayer.draw(&texManager);
 }
 
 void Game::FillScreenWithGrass() {
@@ -150,16 +159,16 @@ void Game::FillScreenWithGrass() {
 
 void Game::WallLayer() {
   int rr[11][16] = {{1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                  {1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}};
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
+                    {1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}};
   TextureManager texManager = TextureManager(mRenderer);
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/wall.png");
 

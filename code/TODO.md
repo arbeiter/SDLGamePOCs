@@ -10,11 +10,11 @@
 
 ### Task 3:
   - Create tilemap in 2d rectangle
-  - Render
+  - Render the tilemap
 
 ### Task 3:
   - Draw a single rectangle player
-  - Move over canvas
+  - Move player over canvas
 
 ### Task 4:
   - Implement collision
