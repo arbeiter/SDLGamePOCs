@@ -110,7 +110,7 @@ void Game::processInput()
     if (state[SDL_SCANCODE_D])
     {
       if(mPlayer.y > 0) {
-        mPlayer.y -= 1;
+        mPlayer.y += 1;
       }
     }
   }
