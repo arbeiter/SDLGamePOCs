@@ -5,7 +5,7 @@ Game::Game()
   :mWindow(nullptr)
   ,mRenderer(nullptr)
   ,mTicksCount(0)
-  ,mPlayer(0,0)
+  ,mPlayer(0,0, "")
 {
 }
 
@@ -50,7 +50,7 @@ bool Game::initialize() {
     SDL_Log("Failed to create renderer: %s", SDL_GetError());
     return false;
   }
-  mPlayer = Player(0, 300);
+  mPlayer = Player(0, 300, "ground_grass_1.png");
 
   return true;
 }
@@ -91,6 +91,27 @@ void Game::processInput()
     if (state[SDL_SCANCODE_ESCAPE])
     {
       mIsRunning = false;
+    }
+
+    if (state[SDL_SCANCODE_W])
+    {
+      mPlayer.x += 1;
+    }
+    if (state[SDL_SCANCODE_S])
+    {
+      if(mPlayer.x > 0) {
+        mPlayer.x -= 1;
+      }
+    }
+    if (state[SDL_SCANCODE_A])
+    {
+      mPlayer.y -= 1;
+    }
+    if (state[SDL_SCANCODE_D])
+    {
+      if(mPlayer.y > 0) {
+        mPlayer.y -= 1;
+      }
     }
   }
 }
@@ -187,7 +208,6 @@ void Game::WallLayer() {
     for (int j = 0; j <16; j++) {
       if(rr[i][j] == 1) {
         texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_y, coord_x, w, h);
-        std::cout << i << j << std::endl;
       }
       coord_y += w;
     }

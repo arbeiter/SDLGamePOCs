@@ -2,6 +2,8 @@ add_executable (clonegame
   main.cpp
   game.cpp
   game.h
+  player.h
+  player.cpp
   textureManager.h
   textureManager.cpp
 )

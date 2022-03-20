@@ -9,6 +9,10 @@ class Player
     float mvelX, mVely;
     int width;
     int height;
-    Player(int posx, int posy): x(posx), y(posy) {};
+    int numSprites;
+    std::string name;
+    Player(int posx, int posy, std::string resName): x(posx), y(posy), name(resName) {};
     void draw(TextureManager *texManager);
+  private:
+    void loadImages(TextureManager *texManager);
 };
