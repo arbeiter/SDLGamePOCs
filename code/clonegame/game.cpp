@@ -1,5 +1,11 @@
 #include "game.h"
 #include "textureManager.h"
+#include "vector"
+#include "tuple"
+using namespace std;
+
+int rect_height = 0;
+int rect_width = 0;
 
 Game::Game()
   :mWindow(nullptr)
@@ -11,6 +17,9 @@ Game::Game()
 
 int SCREEN_WIDTH = 1024;
 int SCREEN_HEIGHT = 768;
+//
+// TODO: Move to class
+std::vector<std::tuple<int, int>> brick_positions;
 
 bool Game::initialize() {
   // Initialize SDL
@@ -95,7 +104,18 @@ void Game::processInput()
 
     if (state[SDL_SCANCODE_W])
     {
-      mPlayer.x += 1;
+      int temp_x = mPlayer.x;
+      int temp_y = mPlayer.y;
+      bool do_not_move = false;
+      for(int i = 0; i< brick_positions.size(); i++) {
+        int curr_x, curr_y;
+        std::tie(curr_x, curr_y) = brick_positions[i];
+        do_not_move &= get_intersection(curr_x, curr_y, temp_x, temp_y);
+        // cout << "CURR POS" << temp_x << " BRICK POS " << curr_x << endl;
+      }
+      if(do_not_move == false) {
+        mPlayer.x += 1;
+      }
     }
     if (state[SDL_SCANCODE_S])
     {
@@ -198,9 +218,11 @@ void Game::WallLayer() {
   SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
   int x_w = w;
   int x_h = h;
+  rect_height = h;
+  rect_width = w;
 
   int coord_x, coord_y;
-  std::cout << w << h << std::endl;
+  // std::cout << w << h << std::endl;
 
   coord_x = 0;
   coord_y = 0;
@@ -208,12 +230,27 @@ void Game::WallLayer() {
     for (int j = 0; j <16; j++) {
       if(rr[i][j] == 1) {
         texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_y, coord_x, w, h);
+        brick_positions.push_back(make_tuple(coord_y, coord_x));
       }
       coord_y += w;
     }
     coord_y = 0;
     coord_x += h;
   }
+}
+
+bool Game::get_intersection(int a_x, int a_y, int b_x, int b_y) {
+  int b_width = mPlayer.width;
+  int b_height = mPlayer.height;
+  int a_width = rect_width;
+  int a_height = rect_height;
+  // check x intersection
+  if (a_x + a_width < b_x || a_x > b_x + b_width) {
+    if(a_y + a_height < b_y || a_y > b_y + b_height) {
+      return false;
+    }
+  }
+  return true;
 }
 
 SDL_Texture* Game::LoadTexture(const char* texture)
