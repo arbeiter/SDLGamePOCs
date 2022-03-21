@@ -278,7 +278,7 @@ bool Game::get_intersection(int brick_x, int brick_y, int player_x, int player_y
       // std::cout << "PLAYER_Y > BRICK_Y + BRICK_H" << endl;
     }
     if(player_y + player_height < brick_y) {
-      std::cout << "PLAYER_Y + PLAYER_H < BRICK_Y" << endl;
+      // std::cout << "PLAYER_Y + PLAYER_H < BRICK_Y" << endl;
     }
     /*
     if(player_y > brick_y + brick_height) {
@@ -295,7 +295,7 @@ bool Game::get_intersection(int brick_x, int brick_y, int player_x, int player_y
     return false;
   }
   
-  cout << "Intersection" << endl;
+  // cout << "Intersection" << endl;
   /*
   std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
   std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
