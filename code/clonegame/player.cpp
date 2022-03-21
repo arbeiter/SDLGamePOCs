@@ -23,7 +23,6 @@ void Player::loadImages(TextureManager *texManager) {
      SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
      for(int i = 0; i < w/image_size; i++) {
       for(int j = 0; j < h/image_size; j++) {
-        
       }
     }
   int w, h;

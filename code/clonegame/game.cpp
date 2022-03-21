@@ -102,37 +102,49 @@ void Game::processInput()
       mIsRunning = false;
     }
 
-    if (state[SDL_SCANCODE_W])
-    {
-        mPlayer.x += 1;
+    bool do_not_move_temp = false;
+    int player_x = mPlayer.x;
+    int player_y = mPlayer.y;
+    for(int i = 0; i < brick_positions.size(); i++) {
+      int brick_x, brick_y;
+      std::tie(brick_x, brick_y) = brick_positions[i];
+      do_not_move_temp |= get_intersection(brick_x, brick_y, player_x, player_y);
     }
 
-    if(state[SDL_SCANCODE_T]) {
-      cout << "CLEAR" << endl;
-      int player_x = mPlayer.x;
-      int player_y = mPlayer.y;
-
-      bool do_not_move_temp = false;
-      for(int i = 0; i < brick_positions.size(); i++) {
-        int brick_x, brick_y;
-        std::tie(brick_x, brick_y) = brick_positions[i];
-        do_not_move_temp |= get_intersection(brick_x, brick_y, player_x, player_y);
-      }
+    if (state[SDL_SCANCODE_W])
+    {
+        if(do_not_move_temp == false)
+          mPlayer.x += 1;
+        else {
+          mPlayer.x -= 1;
+        }
     }
     if (state[SDL_SCANCODE_S])
     {
       if(mPlayer.x > 0) {
-        mPlayer.x -= 1;
+        if(do_not_move_temp == false)
+          mPlayer.x -= 1;
+        else {
+          mPlayer.x += 1;
+        }
       }
     }
     if (state[SDL_SCANCODE_A])
     {
-      mPlayer.y -= 1;
+      if(do_not_move_temp == false)
+        mPlayer.y -= 1;
+      else {
+        mPlayer.y += 1;
+      }
     }
     if (state[SDL_SCANCODE_D])
     {
       if(mPlayer.y > 0) {
-        mPlayer.y += 1;
+        if(do_not_move_temp == false)
+          mPlayer.y += 1;
+        else {
+          mPlayer.y -= 1;
+        }
       }
     }
   }
@@ -256,33 +268,39 @@ bool Game::get_intersection(int brick_x, int brick_y, int player_x, int player_y
   int brick_width = rect_width;
   int brick_height = rect_height;
 
-  // check x intersection
-  // std::cout << a_x << " " << a_y << " " << b_x << " " << b_y << std::endl;
-  // std::cout << a_width << " " << a_height << " " << b_width << " " << b_height<< std::endl;
   if(player_x + player_width < brick_x || player_x > brick_x + brick_width) {
-    std::cout << "X OUTSIDE" << std::endl;
+    // std::cout << "X OUTSIDE" << std::endl;
     return false;
   }
 
-  // std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
   if(player_y > brick_y + brick_height ||  player_y + player_height < brick_y) {
+    if(player_y > brick_y + brick_height) {
+      // std::cout << "PLAYER_Y > BRICK_Y + BRICK_H" << endl;
+    }
+    if(player_y + player_height < brick_y) {
+      std::cout << "PLAYER_Y + PLAYER_H < BRICK_Y" << endl;
+    }
+    /*
     if(player_y > brick_y + brick_height) {
       std::cout << "PLAYER_Y > BRICK_Y + BRICK_H" << endl;
     }
     if(player_y + player_height < brick_y) {
       std::cout << "PLAYER_Y + PLAYER_H < BRICK_Y" << endl;
     }
-    //std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
-    //std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
-    //std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
-    //std::cout << "SUCKS Y" << endl;
+    std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
+    std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
+    std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
+    std::cout << "SUCKS Y" << endl;
+    */
     return false;
   }
-
-  std::cout << "Intersection" << std::endl;
-  //std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
-  //std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
-  //std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
+  
+  cout << "Intersection" << endl;
+  /*
+  std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
+  std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
+  std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
+  */
   return true;
 }
 
