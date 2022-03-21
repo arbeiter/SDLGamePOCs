@@ -104,17 +104,19 @@ void Game::processInput()
 
     if (state[SDL_SCANCODE_W])
     {
-      int temp_x = mPlayer.x;
-      int temp_y = mPlayer.y;
-      bool do_not_move = false;
-      for(int i = 0; i< brick_positions.size(); i++) {
-        int curr_x, curr_y;
-        std::tie(curr_x, curr_y) = brick_positions[i];
-        do_not_move &= get_intersection(curr_x, curr_y, temp_x, temp_y);
-        // cout << "CURR POS" << temp_x << " BRICK POS " << curr_x << endl;
-      }
-      if(do_not_move == false) {
         mPlayer.x += 1;
+    }
+
+    if(state[SDL_SCANCODE_T]) {
+      cout << "CLEAR" << endl;
+      int player_x = mPlayer.x;
+      int player_y = mPlayer.y;
+
+      bool do_not_move_temp = false;
+      for(int i = 0; i < brick_positions.size(); i++) {
+        int brick_x, brick_y;
+        std::tie(brick_x, brick_y) = brick_positions[i];
+        do_not_move_temp |= get_intersection(brick_x, brick_y, player_x, player_y);
       }
     }
     if (state[SDL_SCANCODE_S])
@@ -179,10 +181,7 @@ void Game::FillScreenWithGrass() {
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/grass.png");
 
   int w, h;
-
   SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
-  // int num_cols = (int) SCREEN_WIDTH / w;
-  // int num_rows = (int) SCREEN_HEIGHT / h;
 
   // 80, 18
   int x_w = w-2;
@@ -199,17 +198,17 @@ void Game::FillScreenWithGrass() {
 }
 
 void Game::WallLayer() {
-  int rr[11][16] = {{1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1}, 
-                    {1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}};
+  int rr[11][16] = {{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,1,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,1,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}};
   TextureManager texManager = TextureManager(mRenderer);
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/wall.png");
 
@@ -222,7 +221,6 @@ void Game::WallLayer() {
   rect_width = w;
 
   int coord_x, coord_y;
-  // std::cout << w << h << std::endl;
 
   coord_x = 0;
   coord_y = 0;
@@ -239,17 +237,52 @@ void Game::WallLayer() {
   }
 }
 
-bool Game::get_intersection(int a_x, int a_y, int b_x, int b_y) {
-  int b_width = mPlayer.width;
-  int b_height = mPlayer.height;
-  int a_width = rect_width;
-  int a_height = rect_height;
+/*
+bool Game::print_stats(int brick_x, int brick_y, int player_x, int player_y) {
+  int player_width = mPlayer.width;
+  int player_height = mPlayer.height;
+  int brick_width = rect_width;
+  int brick_height = rect_height;
+  // std::cout << player_x << " " << player_y << std::endl;
+  // std::cout << " " << b_x << " " << b_y << std::endl;
+  // std::cout << a_width << " " << a_height << " " << b_width << " " << b_height<< std::endl;
+}
+*/
+
+// a -> brick, b -> player
+bool Game::get_intersection(int brick_x, int brick_y, int player_x, int player_y) {
+  int player_width = mPlayer.width;
+  int player_height = mPlayer.height;
+  int brick_width = rect_width;
+  int brick_height = rect_height;
+
   // check x intersection
-  if (a_x + a_width < b_x || a_x > b_x + b_width) {
-    if(a_y + a_height < b_y || a_y > b_y + b_height) {
-      return false;
-    }
+  // std::cout << a_x << " " << a_y << " " << b_x << " " << b_y << std::endl;
+  // std::cout << a_width << " " << a_height << " " << b_width << " " << b_height<< std::endl;
+  if(player_x + player_width < brick_x || player_x > brick_x + brick_width) {
+    std::cout << "X OUTSIDE" << std::endl;
+    return false;
   }
+
+  // std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
+  if(player_y > brick_y + brick_height ||  player_y + player_height < brick_y) {
+    if(player_y > brick_y + brick_height) {
+      std::cout << "PLAYER_Y > BRICK_Y + BRICK_H" << endl;
+    }
+    if(player_y + player_height < brick_y) {
+      std::cout << "PLAYER_Y + PLAYER_H < BRICK_Y" << endl;
+    }
+    //std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
+    //std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
+    //std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
+    //std::cout << "SUCKS Y" << endl;
+    return false;
+  }
+
+  std::cout << "Intersection" << std::endl;
+  //std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
+  //std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
+  //std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
   return true;
 }
 

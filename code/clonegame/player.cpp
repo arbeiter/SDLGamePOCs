@@ -6,6 +6,8 @@ void Player::draw(TextureManager *texManager) {
   SDL_Texture *bitmapTex = texManager->LoadTexture(image);
   int w, h;
   SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
+  width = w;
+  height = h;
   texManager->ClipTexture(bitmapTex, 0, 0, w, h, x, y, w, h);
 }
 
