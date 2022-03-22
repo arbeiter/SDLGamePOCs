@@ -14,5 +14,5 @@ class Player
     Player(int posx, int posy, std::string resName): x(posx), y(posy), name(resName) {};
     void draw(TextureManager *texManager);
   private:
-    void loadImages(TextureManager *texManager);
+    void loadImage(TextureManager *texManager, int pos);
 };

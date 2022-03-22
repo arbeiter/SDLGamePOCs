@@ -188,6 +188,7 @@ void Game::DrawActor() {
   mPlayer.draw(&texManager);
 }
 
+
 void Game::FillScreenWithGrass() {
   TextureManager texManager = TextureManager(mRenderer);
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/grass.png");
