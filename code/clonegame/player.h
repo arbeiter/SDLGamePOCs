@@ -13,6 +13,6 @@ class Player
     std::string name;
     Player(int posx, int posy, std::string resName): x(posx), y(posy), name(resName) {};
     void draw(TextureManager *texManager);
-  private:
-    void loadImage(TextureManager *texManager, int pos);
+    SDL_Texture* preloadImage(TextureManager *texManager, std::string name);
+    void sampleFromSpritesheet(TextureManager *texManager, SDL_Texture* bitmapTex, int pos);
 };

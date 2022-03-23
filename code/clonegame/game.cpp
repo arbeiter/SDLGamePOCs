@@ -15,6 +15,8 @@ Game::Game()
 {
 }
 
+int FRAME_NUMBER = 0;
+SDL_Texture* spriteSheet;
 int SCREEN_WIDTH = 1024;
 int SCREEN_HEIGHT = 768;
 //
@@ -22,6 +24,7 @@ int SCREEN_HEIGHT = 768;
 std::vector<std::tuple<int, int>> brick_positions;
 
 bool Game::initialize() {
+  TextureManager tempTexManager = TextureManager(mRenderer);
   // Initialize SDL
   mIsRunning = true;
   int sdlResult = SDL_Init(SDL_INIT_VIDEO);
@@ -59,13 +62,14 @@ bool Game::initialize() {
     SDL_Log("Failed to create renderer: %s", SDL_GetError());
     return false;
   }
-  mPlayer = Player(0, 300, "ground_grass_1.png");
 
   return true;
 }
 
 void Game::runLoop() 
 {
+  TextureManager texManager = TextureManager(mRenderer);
+  spriteSheet = texManager.preloadImage("adventurer-Sheet.png");
   while (mIsRunning)
   {
     processInput();
@@ -161,6 +165,7 @@ void Game::updateGame()
   }
 
   mTicksCount = SDL_GetTicks();
+  FRAME_NUMBER += 1;
 }
 
 void Game::generateOutput()
@@ -185,7 +190,7 @@ void Game::generateOutput()
 
 void Game::DrawActor() {
   TextureManager texManager = TextureManager(mRenderer);
-  mPlayer.draw(&texManager);
+  mPlayer.sampleFromSpritesheet(&texManager,  spriteSheet, FRAME_NUMBER % 4);
 }
 
 
