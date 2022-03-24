@@ -24,6 +24,8 @@ int SCREEN_HEIGHT = 768;
 std::vector<std::tuple<int, int>> brick_positions;
 
 bool Game::initialize() {
+  mPlayer.width = 50;
+  mPlayer.height = 40;
   TextureManager tempTexManager = TextureManager(mRenderer);
   // Initialize SDL
   mIsRunning = true;
@@ -190,7 +192,10 @@ void Game::generateOutput()
 
 void Game::DrawActor() {
   TextureManager texManager = TextureManager(mRenderer);
-  mPlayer.sampleFromSpritesheet(&texManager,  spriteSheet, FRAME_NUMBER % 4);
+  int num_frames = 8;
+  int delayPerFrame = 500;
+  int frame = (SDL_GetTicks() / delayPerFrame) % num_frames;
+  mPlayer.sampleFromSpritesheet(&texManager,  spriteSheet, frame);
 }
 
 
@@ -216,7 +221,7 @@ void Game::FillScreenWithGrass() {
 }
 
 void Game::WallLayer() {
-  int rr[11][16] = {{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+  int rr[11][16] = {{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}, 
                     {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
                     {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
                     {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
@@ -267,7 +272,6 @@ bool Game::print_stats(int brick_x, int brick_y, int player_x, int player_y) {
 }
 */
 
-// a -> brick, b -> player
 bool Game::get_intersection(int brick_x, int brick_y, int player_x, int player_y) {
   int player_width = mPlayer.width;
   int player_height = mPlayer.height;
@@ -275,50 +279,12 @@ bool Game::get_intersection(int brick_x, int brick_y, int player_x, int player_y
   int brick_height = rect_height;
 
   if(player_x + player_width < brick_x || player_x > brick_x + brick_width) {
-    // std::cout << "X OUTSIDE" << std::endl;
     return false;
   }
 
   if(player_y > brick_y + brick_height ||  player_y + player_height < brick_y) {
-    if(player_y > brick_y + brick_height) {
-      // std::cout << "PLAYER_Y > BRICK_Y + BRICK_H" << endl;
-    }
-    if(player_y + player_height < brick_y) {
-      // std::cout << "PLAYER_Y + PLAYER_H < BRICK_Y" << endl;
-    }
-    /*
-    if(player_y > brick_y + brick_height) {
-      std::cout << "PLAYER_Y > BRICK_Y + BRICK_H" << endl;
-    }
-    if(player_y + player_height < brick_y) {
-      std::cout << "PLAYER_Y + PLAYER_H < BRICK_Y" << endl;
-    }
-    std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
-    std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
-    std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
-    std::cout << "SUCKS Y" << endl;
-    */
     return false;
   }
   
-  // cout << "Intersection" << endl;
-  /*
-  std::cout << "PLAYER XY "<< player_x << " " << player_y << "BRICKXY" << brick_x << " " << brick_y << std::endl;
-  std::cout << "PLAYERWIDTH " << player_width << "PLAYERWIDTH" << player_height << "BRICKWIDTH " << brick_width << "BRICKHEIGHT " << brick_height << std::endl;
-  std::cout << "BRICK HEIGHT SUM" << brick_y + brick_height << "PLAYER HEIGHT SUM" << player_y + player_height << std::endl;
-  */
   return true;
-}
-
-SDL_Texture* Game::LoadTexture(const char* texture)
-{
-	SDL_Surface* tempSurface = IMG_Load(texture);
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(mRenderer, tempSurface);
-	SDL_FreeSurface(tempSurface);
-	return tex;
-}
-
-void Game::Draw(SDL_Texture * tex, SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip)
-{
-	SDL_RenderCopyEx(mRenderer, tex, &src, &dest, NULL, NULL, flip);
 }
