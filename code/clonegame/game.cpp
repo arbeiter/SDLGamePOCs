@@ -33,7 +33,7 @@ int SCREEN_HEIGHT = 768;
 //
 // TODO: Move to class
 std::vector<std::tuple<int, int>> brick_positions;
-std::vector<std::tuple<int, int>> collectable_positions;
+std::vector<std::tuple<int, int, int, int>> collectable_positions;
 
 bool Game::initialize() {
   mPlayer.width = 50;
@@ -131,12 +131,15 @@ void Game::processInput()
 
     int intersection_pos = -1;
     for(int i = 0; i < collectable_positions.size(); i++) {
-      int collectable_x, collectable_y;
-      std::tie(collectable_x, collectable_y) = collectable_positions[i];
-      if(get_intersection(collectable_x, collectable_y, player_x, player_y)) {
+      int collectable_x, collectable_y, a, b;
+      std::tie(a, b, collectable_x, collectable_y) = collectable_positions[i];
+      std::cout << collectable_x << collectable_y << std::endl;
+
+      if(get_intersection(a, b, player_x, player_y)) {
         std::cout << "Intersection happened" << endl;
         mPlayer.x += 2;
         intersection_pos = i;
+        std::cout << collectable_backing[collectable_x][collectable_y] << std::endl;
         collectable_backing[collectable_x][collectable_y] = 0;
         std::cout << "don't get here" << endl;
         break;
