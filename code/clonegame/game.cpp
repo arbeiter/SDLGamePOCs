@@ -131,17 +131,13 @@ void Game::processInput()
 
     int intersection_pos = -1;
     for(int i = 0; i < collectable_positions.size(); i++) {
-      int collectable_x, collectable_y, a, b;
-      std::tie(a, b, collectable_x, collectable_y) = collectable_positions[i];
-      std::cout << collectable_x << collectable_y << std::endl;
+      int collectable_i, collectable_j, a, b;
+      std::tie(a, b, collectable_i, collectable_j) = collectable_positions[i];
 
       if(get_intersection(a, b, player_x, player_y)) {
-        std::cout << "Intersection happened" << endl;
         mPlayer.x += 2;
         intersection_pos = i;
-        std::cout << collectable_backing[collectable_x][collectable_y] << std::endl;
-        collectable_backing[collectable_x][collectable_y] = 0;
-        std::cout << "don't get here" << endl;
+        collectable_backing[collectable_i][collectable_j] = 0;
         break;
       }
     }
@@ -280,7 +276,7 @@ void Game::Collectables() {
     for (int j = 0; j <16; j++) {
       if(collectable_backing[i][j] == 1) {
         texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_y, coord_x, w, h);
-        collectable_positions.push_back(make_tuple(coord_y, coord_x));
+        collectable_positions.push_back(make_tuple(coord_y, coord_x, i, j));
       }
       coord_y += w;
     }
