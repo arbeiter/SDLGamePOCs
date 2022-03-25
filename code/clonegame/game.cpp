@@ -6,6 +6,17 @@ using namespace std;
 
 int rect_height = 0;
 int rect_width = 0;
+int collectable_backing[11][16] = {{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 1,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 1,0,0,0, 0,0,0,0, 0,0,0,0}, 
+                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 1,0,0,0}};
 
 Game::Game()
   :mWindow(nullptr)
@@ -22,6 +33,7 @@ int SCREEN_HEIGHT = 768;
 //
 // TODO: Move to class
 std::vector<std::tuple<int, int>> brick_positions;
+std::vector<std::tuple<int, int>> collectable_positions;
 
 bool Game::initialize() {
   mPlayer.width = 50;
@@ -117,6 +129,28 @@ void Game::processInput()
       do_not_move_temp |= get_intersection(brick_x, brick_y, player_x, player_y);
     }
 
+    int intersection_pos = -1;
+    for(int i = 0; i < collectable_positions.size(); i++) {
+      int collectable_x, collectable_y;
+      std::tie(collectable_x, collectable_y) = collectable_positions[i];
+      if(get_intersection(collectable_x, collectable_y, player_x, player_y)) {
+        std::cout << "Intersection happened" << endl;
+        mPlayer.x += 2;
+        intersection_pos = i;
+        collectable_backing[collectable_x][collectable_y] = 0;
+        std::cout << "don't get here" << endl;
+        break;
+      }
+    }
+
+    if(intersection_pos != -1) {
+      collectable_positions.erase(collectable_positions.begin() + intersection_pos);
+    }
+
+    // get rid of anything < 10
+    // collectable_positions.erase(std::remove_if(collectable_positions.begin(), collectable_positions.end(), 
+    //                        [](int i) { return i < 10; }), collectable_positions.end());
+
     if (state[SDL_SCANCODE_W])
     {
         if(do_not_move_temp == false)
@@ -125,6 +159,7 @@ void Game::processInput()
           mPlayer.x -= 1;
         }
     }
+
     if (state[SDL_SCANCODE_S])
     {
       if(mPlayer.x > 0) {
@@ -135,6 +170,7 @@ void Game::processInput()
         }
       }
     }
+    
     if (state[SDL_SCANCODE_A])
     {
       if(do_not_move_temp == false)
@@ -143,14 +179,13 @@ void Game::processInput()
         mPlayer.y += 1;
       }
     }
+
     if (state[SDL_SCANCODE_D])
     {
-      if(mPlayer.y > 0) {
-        if(do_not_move_temp == false)
-          mPlayer.y += 1;
-        else {
-          mPlayer.y -= 1;
-        }
+      if(do_not_move_temp == false)
+        mPlayer.y += 1;
+      else {
+        mPlayer.y -= 1;
       }
     }
   }
@@ -185,6 +220,7 @@ void Game::generateOutput()
 	SDL_RenderClear(mRenderer);
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
   FillScreenWithGrass();
+  Collectables();
   WallLayer();
   DrawActor();
   SDL_RenderPresent(mRenderer);
@@ -217,6 +253,36 @@ void Game::FillScreenWithGrass() {
       j+=w;
     }
     i+=h;
+  }
+}
+
+
+void Game::Collectables() {
+  TextureManager texManager = TextureManager(mRenderer);
+  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/collectable_jam.png");
+
+  int w, h;
+  SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
+
+  int x_w = w;
+  int x_h = h;
+  rect_height = h;
+  rect_width = w;
+
+  int coord_x, coord_y;
+
+  coord_x = 0;
+  coord_y = 0;
+  for (int i = 0; i < 11; i++) {
+    for (int j = 0; j <16; j++) {
+      if(collectable_backing[i][j] == 1) {
+        texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_y, coord_x, w, h);
+        collectable_positions.push_back(make_tuple(coord_y, coord_x));
+      }
+      coord_y += w;
+    }
+    coord_y = 0;
+    coord_x += h;
   }
 }
 

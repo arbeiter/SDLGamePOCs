@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 set(CMAKE_BUILD_TYPE Debug)
+add_compile_options(-g -rdynamic)
 
 project(SDL2Test)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
