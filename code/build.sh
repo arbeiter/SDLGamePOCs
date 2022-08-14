@@ -1,6 +1,6 @@
 mkdir -p bin
 cd bin
 rm -rf *
-cmake ..; make
+cmake -DCMAKE_BUILD_TYPE=Debug ..; make
 cd clonegame
 ./clonegame

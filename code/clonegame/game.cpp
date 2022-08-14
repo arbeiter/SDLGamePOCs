@@ -188,9 +188,10 @@ void Game::generateOutput()
 
 void Game::displayFont() {
   SDL_Surface* text;
-  string pos = to_string(mPlayer.x) + "," + to_string(mPlayer.y);
+  string pos = to_string(mPlayer.x) + "," + to_string(mPlayer.y) + ":" + debug_string;
+  std::cout << "DEBUG STRING" << debug_string << endl;
 
-  SDL_Color color = {0, 0, 0};
+  SDL_Color color = {1, 0, 0};
   text = TTF_RenderText_Solid(mFont, pos.c_str(), color);
   if(!text) {
     cout << "Failed to render text" << TTF_GetError() << endl;
@@ -342,8 +343,8 @@ bool Game::handle_collisions(int x, int y) {
     // float player_left_bound = player_x - player_width / 2;
     // float player_right_bound = player_x + player_width / 2;
 
-    int player_width = mPlayer.width;
-    int player_height = mPlayer.height;
+    int player_width = mPlayer.width * 2;
+    int player_height = mPlayer.height * 2;
 
     int player_left_bound = player_x;
     int player_right_bound = player_x + player_width;
@@ -359,11 +360,17 @@ bool Game::handle_collisions(int x, int y) {
 }
 
 bool Game::compute_collision(int player_x, int player_y) {
-  int brick_width = (SCREEN_WIDTH) / num_cols;
-  int brick_height = (SCREEN_HEIGHT) / num_rows;
+  int brick_width = 60;
+  int brick_height = 60;
+  int sbm_width = 60 * 11;
+  int sbm_height = 60 * 16;
 
-  int r_x = (int)( player_x / brick_width);
-  int r_y = (int)( player_y / brick_height);
+  int r_x = (int)( player_x / 60);
+  int r_y = (int)( player_y / 60);
 
-  return (rr[r_x][r_y] == 1);
+  if (rr[r_y][r_x] == 1) {
+    return true;
+  } else {
+    return false;
+  }
 }

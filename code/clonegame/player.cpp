@@ -13,5 +13,5 @@ void Player::sampleFromSpritesheet(TextureManager *texManager, SDL_Texture* bitm
   int character_column = (int)(pos % num_characters_per_row);
   int pos_y = character_row * character_h;
   int pos_x = character_column * character_w;
-  texManager->ClipTexture(bitmapTex, pos_x, pos_y, character_w, character_h, x, y, character_w*2, character_h*2);
+  texManager->ClipTexture(bitmapTex, pos_x, pos_y, character_w, character_h, x, y, character_w * 2, character_h * 2);
 }
