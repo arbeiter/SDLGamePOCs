@@ -4,20 +4,6 @@
 #include "tuple"
 using namespace std;
 
-int rect_height = 0;
-int rect_width = 0;
-int collectable_backing[11][16] = {{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 1,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 1,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                            {0,0,0,0, 0,0,0,0, 0,0,0,0, 1,0,0,0}};
-
 Game::Game()
   :mWindow(nullptr)
   ,mRenderer(nullptr)
@@ -26,16 +12,12 @@ Game::Game()
 {
 }
 
-int FRAME_NUMBER = 0;
-SDL_Texture* spriteSheet;
-int SCREEN_WIDTH = 1024;
-int SCREEN_HEIGHT = 768;
-//
+
 // TODO: Move to class
-std::vector<std::tuple<int, int>> brick_positions;
 std::vector<std::tuple<int, int, int, int>> collectable_positions;
 
 bool Game::initialize() {
+  // TODO: Move to player constructor
   mPlayer.width = 50;
   mPlayer.height = 40;
   TextureManager tempTexManager = TextureManager(mRenderer);
@@ -77,10 +59,28 @@ bool Game::initialize() {
     return false;
   }
 
+  // initialize SDL_ttf
+  if (TTF_Init() == -1)
+  {
+    printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+    return false;
+  }
+
+  loadFonts();
   return true;
 }
 
-void Game::runLoop() 
+bool Game::loadFonts() {
+  mFont = TTF_OpenFont("./res/Inconsolata-Regular.ttf", 28);
+  if (mFont == NULL)
+  {
+    printf("Failed to load font! SDL_ttf error: %s\n", TTF_GetError());
+    return false;
+  }
+  return true;
+}
+
+void Game::runLoop()
 {
   TextureManager texManager = TextureManager(mRenderer);
   spriteSheet = texManager.preloadImage("adventurer-Sheet.png");
@@ -98,6 +98,7 @@ void Game::shutDown()
   SDL_DestroyWindow(mWindow);
   SDL_Quit();
 }
+
 
 void Game::processInput()
 {
@@ -120,74 +121,32 @@ void Game::processInput()
       mIsRunning = false;
     }
 
-    bool do_not_move_temp = false;
-    int player_x = mPlayer.x;
-    int player_y = mPlayer.y;
-    for(int i = 0; i < brick_positions.size(); i++) {
-      int brick_x, brick_y;
-      std::tie(brick_x, brick_y) = brick_positions[i];
-      do_not_move_temp |= get_intersection(brick_x, brick_y, player_x, player_y);
-    }
 
-    int intersection_pos = -1;
-    for(int i = 0; i < collectable_positions.size(); i++) {
-      int collectable_i, collectable_j, a, b;
-      std::tie(a, b, collectable_i, collectable_j) = collectable_positions[i];
-
-      if(get_intersection(a, b, player_x, player_y)) {
-        mPlayer.x += 2;
-        intersection_pos = i;
-        collectable_backing[collectable_i][collectable_j] = 0;
-        break;
-      }
-    }
-
-    if(intersection_pos != -1) {
-      collectable_positions.erase(collectable_positions.begin() + intersection_pos);
-    }
-
-    // get rid of anything < 10
-    // collectable_positions.erase(std::remove_if(collectable_positions.begin(), collectable_positions.end(), 
-    //                        [](int i) { return i < 10; }), collectable_positions.end());
-
+    int new_x = mPlayer.x;
+    int new_y = mPlayer.y;
     if (state[SDL_SCANCODE_W])
     {
-        if(do_not_move_temp == false)
-          mPlayer.x += 1;
-        else {
-          mPlayer.x -= 1;
-        }
+      new_x += 1;
     }
-
     if (state[SDL_SCANCODE_S])
     {
-      if(mPlayer.x > 0) {
-        if(do_not_move_temp == false)
-          mPlayer.x -= 1;
-        else {
-          mPlayer.x += 1;
-        }
-      }
+      new_x = new_x - 1 >= 0 ? new_x -1 : 0;
     }
-    
     if (state[SDL_SCANCODE_A])
     {
-      if(do_not_move_temp == false)
-        mPlayer.y -= 1;
-      else {
-        mPlayer.y += 1;
-      }
+      new_y += 1;
     }
-
     if (state[SDL_SCANCODE_D])
     {
-      if(do_not_move_temp == false)
-        mPlayer.y += 1;
-      else {
-        mPlayer.y -= 1;
-      }
+      new_y = new_y - 1 >= 0 ? new_y -1 : 0;
+    }
+    bool collides_with_walls = handle_collisions(new_x, new_y);
+    if(collides_with_walls == false) {
+      mPlayer.x = new_x;
+      mPlayer.y = new_y;
     }
   }
+
 }
 
 void Game::updateGame()
@@ -206,23 +165,42 @@ void Game::updateGame()
 
 void Game::generateOutput()
 {
-	// Set draw color to blue
-	SDL_SetRenderDrawColor(
-		mRenderer,
-		0,		// R
-		0,		// G 
-		0,	// B
-		255		// A
-	);
-	
-	// Clear back buffer
-	SDL_RenderClear(mRenderer);
+  // Set draw color to blue
+  SDL_SetRenderDrawColor(
+    mRenderer,
+    0,		// R
+    0,		// G
+    0,	// B
+    255		// A
+  );
+
+  // Clear back buffer
+  SDL_RenderClear(mRenderer);
   SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
   FillScreenWithGrass();
-  Collectables();
+
+  //Collectables();
   WallLayer();
   DrawActor();
+  displayFont();
   SDL_RenderPresent(mRenderer);
+}
+
+void Game::displayFont() {
+  SDL_Surface* text;
+  string pos = to_string(mPlayer.x) + "," + to_string(mPlayer.y);
+
+  SDL_Color color = {0, 0, 0};
+  text = TTF_RenderText_Solid(mFont, pos.c_str(), color);
+  if(!text) {
+    cout << "Failed to render text" << TTF_GetError() << endl;
+  }
+
+  SDL_Texture* text_texture;
+  text_texture = SDL_CreateTextureFromSurface(mRenderer, text);
+  SDL_Rect dest = { 0, 0, text->w, text->h};
+  SDL_RenderCopy(mRenderer, text_texture, NULL, &dest);
+  SDL_FreeSurface(text);
 }
 
 void Game::DrawActor() {
@@ -236,25 +214,46 @@ void Game::DrawActor() {
 
 void Game::FillScreenWithGrass() {
   TextureManager texManager = TextureManager(mRenderer);
-  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/grass.png");
+  SDL_Texture *bitmapTex = texManager.LoadTexture("./res/grass_texture_seamless.jpeg");
 
   int w, h;
   SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
 
   // 80, 18
-  int x_w = w-2;
+  int x_w = w;
   int x_h = h;
+  int num_tiles_cols = (int)(SCREEN_WIDTH/w);
+  int num_tiles_rows = (int)(SCREEN_HEIGHT/h);
 
-  for (int i = 0; i < SCREEN_HEIGHT; i++) {
-    for (int j = 0; j <= SCREEN_WIDTH; j++) {
+  for (int i = 0; i < 20; i+=1) {
+    for (int j = 0; j < 20; j+=1) {
       // Wtf why are j and i reversed
-      texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, j, i, w+5, h+5);
-      j+=w;
+      texManager.RenderTexture(bitmapTex, i * w, j * h, w, h);
     }
-    i+=h;
   }
 }
 
+
+void Game::handle_collectables() {
+  /*
+    int intersection_pos = -1;
+    for(int i = 0; i < collectable_positions.size(); i++) {
+      int collectable_i, collectable_j, a, b;
+      std::tie(a, b, collectable_i, collectable_j) = collectable_positions[i];
+
+      if(get_intersection(a, b, player_x, player_y)) {
+        mPlayer.x += 2;
+        intersection_pos = i;
+        collectable_backing[collectable_i][collectable_j] = 0;
+        break;
+      }
+    }
+
+    if(intersection_pos != -1) {
+      collectable_positions.erase(collectable_positions.begin() + intersection_pos);
+    }
+    */
+}
 
 void Game::Collectables() {
   TextureManager texManager = TextureManager(mRenderer);
@@ -286,17 +285,7 @@ void Game::Collectables() {
 }
 
 void Game::WallLayer() {
-  int rr[11][16] = {{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,1,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,1,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}, 
-                    {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0}};
+  // TODO: Resize the texture so that blocks fill up all available space
   TextureManager texManager = TextureManager(mRenderer);
   SDL_Texture *bitmapTex = texManager.LoadTexture("./res/wall.png");
 
@@ -305,8 +294,6 @@ void Game::WallLayer() {
   SDL_QueryTexture(bitmapTex, NULL, NULL, &w, &h);
   int x_w = w;
   int x_h = h;
-  rect_height = h;
-  rect_width = w;
 
   int coord_x, coord_y;
 
@@ -316,7 +303,9 @@ void Game::WallLayer() {
     for (int j = 0; j <16; j++) {
       if(rr[i][j] == 1) {
         texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_y, coord_x, w, h);
-        brick_positions.push_back(make_tuple(coord_y, coord_x));
+        int curr_w, curr_h;
+        SDL_QueryTexture(bitmapTex, NULL, NULL, &curr_w, &curr_h);
+        cout << curr_w << " " << curr_h << " " << endl;
       }
       coord_y += w;
     }
@@ -337,19 +326,44 @@ bool Game::print_stats(int brick_x, int brick_y, int player_x, int player_y) {
 }
 */
 
-bool Game::get_intersection(int brick_x, int brick_y, int player_x, int player_y) {
-  int player_width = mPlayer.width;
-  int player_height = mPlayer.height;
-  int brick_width = rect_width;
-  int brick_height = rect_height;
+bool Game::handle_collisions(int x, int y) {
+    bool do_not_move_temp = false;
+    int player_x = x;
+    int player_y = y;
 
-  if(player_x + player_width < brick_x || player_x > brick_x + brick_width) {
-    return false;
-  }
+    // screen_width, screen_height
+      // num_walls_r = 11, num_walls_c = 16
+      // dest_x = x +- width/2, see if there is a box there
+      // dest_y = y +- height/2, see if there is a box there
+      // check if dest_x, dest_y lies within a wall
+      // dest_pos_x = dest_x / (16 * tilewidth);
+      // dest_pos_y = dest_y / (11 * tileheight);
+    // brute force collision
+    // float player_left_bound = player_x - player_width / 2;
+    // float player_right_bound = player_x + player_width / 2;
 
-  if(player_y > brick_y + brick_height ||  player_y + player_height < brick_y) {
-    return false;
-  }
-  
-  return true;
+    int player_width = mPlayer.width;
+    int player_height = mPlayer.height;
+
+    int player_left_bound = player_x;
+    int player_right_bound = player_x + player_width;
+    int player_top_bound = player_y;
+    int player_bottom_bound = player_y + player_height;
+
+    bool collision = false;
+    collision |= compute_collision(player_left_bound, player_top_bound);
+    collision |= compute_collision(player_right_bound, player_top_bound);
+    collision |= compute_collision(player_left_bound, player_bottom_bound);
+    collision |= compute_collision(player_right_bound, player_bottom_bound);
+    return collision;
+}
+
+bool Game::compute_collision(int player_x, int player_y) {
+  int brick_width = (SCREEN_WIDTH) / num_cols;
+  int brick_height = (SCREEN_HEIGHT) / num_rows;
+
+  int r_x = (int)( player_x / brick_width);
+  int r_y = (int)( player_y / brick_height);
+
+  return (rr[r_x][r_y] == 1);
 }

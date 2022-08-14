@@ -1,0 +1,194 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/pulo/code/SDLGamePOCs/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210905.0/
+APPLICATION_NAME	code/CMakeLists.txt	/^set(APPLICATION_NAME ${PROJECT_NAME})$/;"	v
+Actor	code/docs/TODO.md	/^### Actor$/;"	S	section:ECS system
+Actor class changes	code/docs/TODO.md	/^### Actor class changes$/;"	S	section:Chapter 3 Headers""Actors
+Actors	code/docs/TODO.md	/^## Actors$/;"	s	chapter:Chapter 3 Headers
+Actors	code/docs/TODO.md	/^## Actors$/;"	s	chapter:Chapter 3 implementations
+AnimSpriteComponent	code/docs/TODO.md	/^# AnimSpriteComponent$/;"	c
+Animation details	code/docs/TODO.md	/^### Animation details$/;"	S	chapter:Implementation details
+Asteroid	code/docs/TODO.md	/^### Asteroid$/;"	S	section:Chapter 3 Headers""Actors
+Asteroid	code/docs/TODO.md	/^### Asteroid$/;"	S	section:Chapter 3 implementations""Actors
+BGSpriteComponent	code/docs/TODO.md	/^# BGSpriteComponent$/;"	c
+BirchEngine	code/docs/BirchEngine.md	/^### BirchEngine$/;"	S
+CMAKE_BUILD_TYPE	code/CMakeLists.txt	/^set(CMAKE_BUILD_TYPE Debug)$/;"	v
+CMAKE_RUNTIME_OUTPUT_DIRECTORY	code/CMakeLists.txt	/^set (CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}\/bin")$/;"	v
+Chapter 3 Headers	code/docs/TODO.md	/^# Chapter 3 Headers$/;"	c
+Chapter 3 implementations	code/docs/TODO.md	/^# Chapter 3 implementations$/;"	c
+CircleComponent	code/docs/TODO.md	/^### CircleComponent$/;"	S	chapter:Chapter 3 Headers
+ClipTexture	code/clonegame/textureManager.cpp	/^void TextureManager::ClipTexture(SDL_Texture *tex, float x, float y, int w, int h, int p_x, int /;"	f	class:TextureManager	typeref:typename:void
+Collectables	code/clonegame/game.cpp	/^void Game::Collectables() {$/;"	f	class:Game	typeref:typename:void
+Component	code/docs/TODO.md	/^### Component$/;"	S	chapter:Implementation details
+Component	code/docs/TODO.md	/^### Component$/;"	S	section:ECS system
+Design	code/docs/README.md	/^# Design$/;"	c
+Done:	code/docs/README.md	/^## Done:$/;"	s
+DrawActor	code/clonegame/game.cpp	/^void Game::DrawActor() {$/;"	f	class:Game	typeref:typename:void
+ECS	code/docs/BirchEngine.md	/^### ECS$/;"	S
+ECS system	code/docs/TODO.md	/^## ECS system$/;"	s
+FRAME_NUMBER	code/clonegame/game.h	/^    int FRAME_NUMBER = 0;$/;"	m	class:Game	typeref:typename:int
+FillScreenWithGrass	code/clonegame/game.cpp	/^void Game::FillScreenWithGrass() {$/;"	f	class:Game	typeref:typename:void
+Game	code/clonegame/game.cpp	/^Game::Game()$/;"	f	class:Game
+Game	code/clonegame/game.h	/^class Game$/;"	c
+Game Init	code/docs/TODO.md	/^## Game Init$/;"	s	chapter:Game class details
+Game RunLoop	code/docs/TODO.md	/^## Game RunLoop $/;"	s	chapter:Game class details
+Game class details	code/docs/TODO.md	/^# Game class details$/;"	c
+Game class methods:	code/docs/TODO.md	/^## Game class methods:$/;"	s	chapter:Game class details
+Goals	code/TODO.md	/^## Goals$/;"	s
+Implementation details	code/docs/TODO.md	/^# Implementation details$/;"	c
+Input processing	code/docs/TODO.md	/^### Input processing$/;"	S	chapter:Implementation details
+InputComponent <- MoveComponent	code/docs/TODO.md	/^### InputComponent <- MoveComponent$/;"	S	chapter:Chapter 3 Headers
+Install	code/docs/README.md	/^## Install$/;"	s
+Laser	code/docs/TODO.md	/^### Laser$/;"	S	section:Chapter 3 Headers""Actors
+Laser	code/docs/TODO.md	/^### Laser$/;"	S	section:Chapter 3 implementations""Actors
+LoadTexture	code/clonegame/textureManager.cpp	/^SDL_Texture* TextureManager::LoadTexture(const char* texture)$/;"	f	class:TextureManager	typeref:typename:SDL_Texture *
+MINGW32_LIBRARY	code/cmake/FindSDL2.cmake	/^  set(MINGW32_LIBRARY mingw32 "-mwindows" CACHE STRING "link flags for MinGW")$/;"	v
+MoveComponent	code/docs/TODO.md	/^### MoveComponent$/;"	S	chapter:Chapter 3 Headers
+Player	code/clonegame/player.h	/^    Player(int posx, int posy, std::string resName): x(posx), y(posy), name(resName) {};$/;"	f	class:Player
+Player	code/clonegame/player.h	/^class Player$/;"	c
+Player <- (Actor)	code/docs/TODO.md	/^# Player <- (Actor)$/;"	c
+RenderTexture	code/clonegame/textureManager.cpp	/^void TextureManager::RenderTexture(SDL_Texture *tex, int x, int y){$/;"	f	class:TextureManager	typeref:typename:void
+RenderTexture	code/clonegame/textureManager.cpp	/^void TextureManager::RenderTexture(SDL_Texture *tex, int x, int y, int w, int h) {$/;"	f	class:TextureManager	typeref:typename:void
+Resources	code/docs/TODO.md	/^# Resources$/;"	c
+SCREEN_HEIGHT	code/clonegame/game.h	/^    int SCREEN_HEIGHT = 600;$/;"	m	class:Game	typeref:typename:int
+SCREEN_WIDTH	code/clonegame/game.h	/^    int SCREEN_WIDTH = 600;$/;"	m	class:Game	typeref:typename:int
+SDL2MAIN_LIBRARY_PATHS	code/cmake/FindSDL2.cmake	/^      set(SDL2MAIN_LIBRARY_PATHS "${SDL2_PATH}")$/;"	v
+SDL2MAIN_LIBRARY_PATHS	code/cmake/FindSDL2.cmake	/^      set(SDL2MAIN_LIBRARY_PATHS$/;"	v
+SDL2Test	code/CMakeLists.txt	/^project(SDL2Test)$/;"	p
+SDL2_GFX_INCLUDE_DIRS	code/cmake/FindSDL2_gfx.cmake	/^set(SDL2_GFX_INCLUDE_DIRS ${SDL2_GFX_INCLUDE_DIR})$/;"	v
+SDL2_GFX_LIBRARIES	code/cmake/FindSDL2_gfx.cmake	/^set(SDL2_GFX_LIBRARIES ${SDL2_GFX_LIBRARY})$/;"	v
+SDL2_GFX_NO_DEFAULT_PATH	code/cmake/FindSDL2_gfx.cmake	/^set(SDL2_GFX_NO_DEFAULT_PATH ${_SDL2_GFX_NO_DEFAULT_PATH}$/;"	v
+SDL2_GFX_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_gfx.cmake	/^  set(SDL2_GFX_NO_DEFAULT_PATH_CMD NO_DEFAULT_PATH)$/;"	v
+SDL2_GFX_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_gfx.cmake	/^set(SDL2_GFX_NO_DEFAULT_PATH_CMD)$/;"	v
+SDL2_GFX_PATH	code/cmake/FindSDL2_gfx.cmake	/^set(SDL2_GFX_PATH "" CACHE STRING "Custom SDL2_gfx Library path")$/;"	v
+SDL2_GFX_SDL2_NOT_FOUND	code/cmake/FindSDL2_gfx.cmake	/^  set(SDL2_GFX_SDL2_NOT_FOUND "Could NOT find SDL2 (SDL2 is required by SDL2_gfx).")$/;"	v
+SDL2_GFX_VERSION_STRING	code/cmake/FindSDL2_gfx.cmake	/^  set(SDL2_GFX_VERSION_STRING ${SDL2_GFX_VERSION_MAJOR}.${SDL2_GFX_VERSION_MINOR}.${SDL2_GFX_VER/;"	v
+SDL2_IMAGE_INCLUDE_DIRS	code/cmake/FindSDL2_image.cmake	/^set(SDL2_IMAGE_INCLUDE_DIRS ${SDL2_IMAGE_INCLUDE_DIR})$/;"	v
+SDL2_IMAGE_LIBRARIES	code/cmake/FindSDL2_image.cmake	/^set(SDL2_IMAGE_LIBRARIES ${SDL2_IMAGE_LIBRARY})$/;"	v
+SDL2_IMAGE_NO_DEFAULT_PATH	code/cmake/FindSDL2_image.cmake	/^set(SDL2_IMAGE_NO_DEFAULT_PATH ${_SDL2_IMAGE_NO_DEFAULT_PATH}$/;"	v
+SDL2_IMAGE_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_image.cmake	/^  set(SDL2_IMAGE_NO_DEFAULT_PATH_CMD NO_DEFAULT_PATH)$/;"	v
+SDL2_IMAGE_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_image.cmake	/^set(SDL2_IMAGE_NO_DEFAULT_PATH_CMD)$/;"	v
+SDL2_IMAGE_PATH	code/cmake/FindSDL2_image.cmake	/^set(SDL2_IMAGE_PATH "" CACHE STRING "Custom SDL2_image Library path")$/;"	v
+SDL2_IMAGE_SDL2_NOT_FOUND	code/cmake/FindSDL2_image.cmake	/^  set(SDL2_IMAGE_SDL2_NOT_FOUND "Could NOT find SDL2 (SDL2 is required by SDL2_image).")$/;"	v
+SDL2_IMAGE_VERSION_STRING	code/cmake/FindSDL2_image.cmake	/^  set(SDL2_IMAGE_VERSION_STRING ${SDL2_IMAGE_VERSION_MAJOR}.${SDL2_IMAGE_VERSION_MINOR}.${SDL2_I/;"	v
+SDL2_INCLUDE_DIRS	code/cmake/FindSDL2.cmake	/^set(SDL2_INCLUDE_DIRS "${SDL2_INCLUDE_DIR}")$/;"	v
+SDL2_LIBRARIES	code/cmake/FindSDL2.cmake	/^      set(SDL2_LIBRARIES "${SDL2MAIN_LIBRARY}" ${SDL2_LIBRARIES})$/;"	v
+SDL2_LIBRARIES	code/cmake/FindSDL2.cmake	/^    set(SDL2_LIBRARIES ${MINGW32_LIBRARY} ${SDL2_LIBRARIES})$/;"	v
+SDL2_LIBRARIES	code/cmake/FindSDL2.cmake	/^    set(SDL2_LIBRARIES ${SDL2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})$/;"	v
+SDL2_LIBRARIES	code/cmake/FindSDL2.cmake	/^    set(SDL2_LIBRARIES ${SDL2_LIBRARIES} -framework Cocoa)$/;"	v
+SDL2_LIBRARIES	code/cmake/FindSDL2.cmake	/^set(SDL2_LIBRARIES "${SDL2_LIBRARY}")$/;"	v
+SDL2_MIXER_INCLUDE_DIRS	code/cmake/FindSDL2_mixer.cmake	/^set(SDL2_MIXER_INCLUDE_DIRS ${SDL2_MIXER_INCLUDE_DIR})$/;"	v
+SDL2_MIXER_LIBRARIES	code/cmake/FindSDL2_mixer.cmake	/^set(SDL2_MIXER_LIBRARIES ${SDL2_MIXER_LIBRARY})$/;"	v
+SDL2_MIXER_NO_DEFAULT_PATH	code/cmake/FindSDL2_mixer.cmake	/^set(SDL2_MIXER_NO_DEFAULT_PATH ${_SDL2_MIXER_NO_DEFAULT_PATH}$/;"	v
+SDL2_MIXER_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_mixer.cmake	/^  set(SDL2_MIXER_NO_DEFAULT_PATH_CMD NO_DEFAULT_PATH)$/;"	v
+SDL2_MIXER_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_mixer.cmake	/^set(SDL2_MIXER_NO_DEFAULT_PATH_CMD)$/;"	v
+SDL2_MIXER_PATH	code/cmake/FindSDL2_mixer.cmake	/^set(SDL2_MIXER_PATH "" CACHE STRING "Custom SDL2_mixer Library path")$/;"	v
+SDL2_MIXER_SDL2_NOT_FOUND	code/cmake/FindSDL2_mixer.cmake	/^  set(SDL2_MIXER_SDL2_NOT_FOUND "Could NOT find SDL2 (SDL2 is required by SDL2_mixer).")$/;"	v
+SDL2_MIXER_VERSION_STRING	code/cmake/FindSDL2_mixer.cmake	/^  set(SDL2_MIXER_VERSION_STRING ${SDL2_MIXER_VERSION_MAJOR}.${SDL2_MIXER_VERSION_MINOR}.${SDL2_M/;"	v
+SDL2_NET_INCLUDE_DIRS	code/cmake/FindSDL2_net.cmake	/^set(SDL2_NET_INCLUDE_DIRS ${SDL2_NET_INCLUDE_DIR})$/;"	v
+SDL2_NET_LIBRARIES	code/cmake/FindSDL2_net.cmake	/^set(SDL2_NET_LIBRARIES ${SDL2_NET_LIBRARY})$/;"	v
+SDL2_NET_NO_DEFAULT_PATH	code/cmake/FindSDL2_net.cmake	/^set(SDL2_NET_NO_DEFAULT_PATH ${_SDL2_NET_NO_DEFAULT_PATH}$/;"	v
+SDL2_NET_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_net.cmake	/^  set(SDL2_NET_NO_DEFAULT_PATH_CMD NO_DEFAULT_PATH)$/;"	v
+SDL2_NET_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_net.cmake	/^set(SDL2_NET_NO_DEFAULT_PATH_CMD)$/;"	v
+SDL2_NET_PATH	code/cmake/FindSDL2_net.cmake	/^set(SDL2_NET_PATH "" CACHE STRING "Custom SDL2_net Library path")$/;"	v
+SDL2_NET_SDL2_NOT_FOUND	code/cmake/FindSDL2_net.cmake	/^  set(SDL2_NET_SDL2_NOT_FOUND "Could NOT find SDL2 (SDL2 is required by SDL2_net).")$/;"	v
+SDL2_NET_VERSION_STRING	code/cmake/FindSDL2_net.cmake	/^  set(SDL2_NET_VERSION_STRING ${SDL2_NET_VERSION_MAJOR}.${SDL2_NET_VERSION_MINOR}.${SDL2_NET_VER/;"	v
+SDL2_NO_DEFAULT_PATH	code/cmake/FindSDL2.cmake	/^set(SDL2_NO_DEFAULT_PATH ${_SDL2_NO_DEFAULT_PATH}$/;"	v
+SDL2_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2.cmake	/^  set(SDL2_NO_DEFAULT_PATH_CMD NO_DEFAULT_PATH)$/;"	v
+SDL2_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2.cmake	/^set(SDL2_NO_DEFAULT_PATH_CMD)$/;"	v
+SDL2_PATH	code/cmake/FindSDL2.cmake	/^set(SDL2_PATH "" CACHE STRING "Custom SDL2 Library path")$/;"	v
+SDL2_THREADS_NOT_FOUND	code/cmake/FindSDL2.cmake	/^    set(SDL2_THREADS_NOT_FOUND "Could NOT find Threads (Threads is required by SDL2).")$/;"	v
+SDL2_TTF_INCLUDE_DIRS	code/cmake/FindSDL2_ttf.cmake	/^set(SDL2_TTF_INCLUDE_DIRS ${SDL2_TTF_INCLUDE_DIR})$/;"	v
+SDL2_TTF_LIBRARIES	code/cmake/FindSDL2_ttf.cmake	/^set(SDL2_TTF_LIBRARIES ${SDL2_TTF_LIBRARY})$/;"	v
+SDL2_TTF_NO_DEFAULT_PATH	code/cmake/FindSDL2_ttf.cmake	/^set(SDL2_TTF_NO_DEFAULT_PATH ${_SDL2_TTF_NO_DEFAULT_PATH}$/;"	v
+SDL2_TTF_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_ttf.cmake	/^  set(SDL2_TTF_NO_DEFAULT_PATH_CMD NO_DEFAULT_PATH)$/;"	v
+SDL2_TTF_NO_DEFAULT_PATH_CMD	code/cmake/FindSDL2_ttf.cmake	/^set(SDL2_TTF_NO_DEFAULT_PATH_CMD)$/;"	v
+SDL2_TTF_PATH	code/cmake/FindSDL2_ttf.cmake	/^set(SDL2_TTF_PATH "" CACHE STRING "Custom SDL2_ttf Library path")$/;"	v
+SDL2_TTF_SDL2_NOT_FOUND	code/cmake/FindSDL2_ttf.cmake	/^  set(SDL2_TTF_SDL2_NOT_FOUND "Could NOT find SDL2 (SDL2 is required by SDL2_ttf).")$/;"	v
+SDL2_TTF_VERSION_STRING	code/cmake/FindSDL2_ttf.cmake	/^  set(SDL2_TTF_VERSION_STRING ${SDL2_TTF_VERSION_MAJOR}.${SDL2_TTF_VERSION_MINOR}.${SDL2_TTF_VER/;"	v
+SDL2_VERSION_STRING	code/cmake/FindSDL2.cmake	/^  set(SDL2_VERSION_STRING ${SDL2_VERSION_MAJOR}.${SDL2_VERSION_MINOR}.${SDL2_VERSION_PATCH})$/;"	v
+SpriteComponent	code/docs/TODO.md	/^# SpriteComponent$/;"	c
+Task 1:	code/TODO.md	/^### Task 1:$/;"	S	section:Goals
+Task 2:	code/TODO.md	/^### Task 2:$/;"	S	section:Goals
+Task 3:	code/TODO.md	/^### Task 3:$/;"	S	section:Goals
+Task 4:	code/TODO.md	/^### Task 4:$/;"	S	section:Goals
+Task 5:	code/TODO.md	/^### Task 5:$/;"	S	section:Goals
+Task List	code/docs/README.md	/^## Task List$/;"	s	chapter:Design
+TextureManager	code/clonegame/textureManager.h	/^    TextureManager(SDL_Renderer *renderer)$/;"	f	class:TextureManager
+TextureManager	code/clonegame/textureManager.h	/^class TextureManager {$/;"	c
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x64)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x86)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_gfx.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x64)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_gfx.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x86)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_image.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x64)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_image.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x86)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_mixer.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x64)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_mixer.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x86)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_net.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x64)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_net.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x86)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_ttf.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x64)$/;"	v
+VC_LIB_PATH_SUFFIX	code/cmake/FindSDL2_ttf.cmake	/^  set(VC_LIB_PATH_SUFFIX lib\/x86)$/;"	v
+Vector2	code/clonegame/game.h	/^struct Vector2$/;"	s
+WallLayer	code/clonegame/game.cpp	/^void Game::WallLayer() {$/;"	f	class:Game	typeref:typename:void
+_SDL2_GFX_NO_DEFAULT_PATH	code/cmake/FindSDL2_gfx.cmake	/^  set(_SDL2_GFX_NO_DEFAULT_PATH ON)$/;"	v
+_SDL2_GFX_NO_DEFAULT_PATH	code/cmake/FindSDL2_gfx.cmake	/^set(_SDL2_GFX_NO_DEFAULT_PATH OFF)$/;"	v
+_SDL2_IMAGE_NO_DEFAULT_PATH	code/cmake/FindSDL2_image.cmake	/^  set(_SDL2_IMAGE_NO_DEFAULT_PATH ON)$/;"	v
+_SDL2_IMAGE_NO_DEFAULT_PATH	code/cmake/FindSDL2_image.cmake	/^set(_SDL2_IMAGE_NO_DEFAULT_PATH OFF)$/;"	v
+_SDL2_MIXER_NO_DEFAULT_PATH	code/cmake/FindSDL2_mixer.cmake	/^  set(_SDL2_MIXER_NO_DEFAULT_PATH ON)$/;"	v
+_SDL2_MIXER_NO_DEFAULT_PATH	code/cmake/FindSDL2_mixer.cmake	/^set(_SDL2_MIXER_NO_DEFAULT_PATH OFF)$/;"	v
+_SDL2_NET_NO_DEFAULT_PATH	code/cmake/FindSDL2_net.cmake	/^  set(_SDL2_NET_NO_DEFAULT_PATH ON)$/;"	v
+_SDL2_NET_NO_DEFAULT_PATH	code/cmake/FindSDL2_net.cmake	/^set(_SDL2_NET_NO_DEFAULT_PATH OFF)$/;"	v
+_SDL2_NO_DEFAULT_PATH	code/cmake/FindSDL2.cmake	/^  set(_SDL2_NO_DEFAULT_PATH ON)$/;"	v
+_SDL2_NO_DEFAULT_PATH	code/cmake/FindSDL2.cmake	/^set(_SDL2_NO_DEFAULT_PATH OFF)$/;"	v
+_SDL2_TTF_NO_DEFAULT_PATH	code/cmake/FindSDL2_ttf.cmake	/^  set(_SDL2_TTF_NO_DEFAULT_PATH ON)$/;"	v
+_SDL2_TTF_NO_DEFAULT_PATH	code/cmake/FindSDL2_ttf.cmake	/^set(_SDL2_TTF_NO_DEFAULT_PATH OFF)$/;"	v
+_font	code/clonegame/game.h	/^    TTF_Font *_font;$/;"	m	class:Game	typeref:typename:TTF_Font *
+clonegame	code/clonegame/CMakeLists.txt	/^add_executable (clonegame$/;"	t
+collectable_backing	code/clonegame/game.h	/^    int collectable_backing[11][16] = {{0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0},$/;"	m	class:Game	typeref:typename:int[11][16]
+collectable_positions	code/clonegame/game.cpp	/^std::vector<std::tuple<int, int, int, int>> collectable_positions;$/;"	v	typeref:typename:std::vector<std::tuple<int,int,int,int>>
+compute_collision	code/clonegame/game.cpp	/^bool Game::compute_collision(int player_x, int player_y) {$/;"	f	class:Game	typeref:typename:bool
+displayFont	code/clonegame/game.cpp	/^void Game::displayFont() {$/;"	f	class:Game	typeref:typename:void
+generateOutput	code/clonegame/game.cpp	/^void Game::generateOutput()$/;"	f	class:Game	typeref:typename:void
+handle_collectables	code/clonegame/game.cpp	/^void Game::handle_collectables() {$/;"	f	class:Game	typeref:typename:void
+handle_collisions	code/clonegame/game.cpp	/^bool Game::handle_collisions(int x, int y) {$/;"	f	class:Game	typeref:typename:bool
+handler	code/clonegame/main.cpp	/^void handler(int sig) {$/;"	f	typeref:typename:void
+height	code/clonegame/player.h	/^    int height;$/;"	m	class:Player	typeref:typename:int
+initialize	code/clonegame/game.cpp	/^bool Game::initialize() {$/;"	f	class:Game	typeref:typename:bool
+loadFonts	code/clonegame/game.cpp	/^bool Game::loadFonts() {$/;"	f	class:Game	typeref:typename:bool
+mFont	code/clonegame/game.h	/^    TTF_Font* mFont;$/;"	m	class:Game	typeref:typename:TTF_Font *
+mIsRunning	code/clonegame/game.h	/^    bool mIsRunning;$/;"	m	class:Game	typeref:typename:bool
+mPlayer	code/clonegame/game.h	/^    Player mPlayer;$/;"	m	class:Game	typeref:typename:Player
+mRenderer	code/clonegame/game.h	/^    SDL_Renderer* mRenderer;$/;"	m	class:Game	typeref:typename:SDL_Renderer *
+mRenderer	code/clonegame/textureManager.h	/^    SDL_Renderer *mRenderer;$/;"	m	class:TextureManager	typeref:typename:SDL_Renderer *
+mTicksCount	code/clonegame/game.h	/^    int mTicksCount;$/;"	m	class:Game	typeref:typename:int
+mVely	code/clonegame/player.h	/^    float mvelX, mVely;$/;"	m	class:Player	typeref:typename:float
+mWindow	code/clonegame/game.h	/^    SDL_Window* mWindow;$/;"	m	class:Game	typeref:typename:SDL_Window *
+main	code/clonegame/main.cpp	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
+mvelX	code/clonegame/player.h	/^    float mvelX, mVely;$/;"	m	class:Player	typeref:typename:float
+name	code/clonegame/player.h	/^    std::string name;$/;"	m	class:Player	typeref:typename:std::string
+numSprites	code/clonegame/player.h	/^    int numSprites;$/;"	m	class:Player	typeref:typename:int
+num_cols	code/clonegame/game.h	/^    int num_cols = 16;$/;"	m	class:Game	typeref:typename:int
+num_rows	code/clonegame/game.h	/^    int num_rows = 11;$/;"	m	class:Game	typeref:typename:int
+preloadImage	code/clonegame/textureManager.cpp	/^SDL_Texture* TextureManager::preloadImage(std::string name) {$/;"	f	class:TextureManager	typeref:typename:SDL_Texture *
+processInput	code/clonegame/game.cpp	/^void Game::processInput()$/;"	f	class:Game	typeref:typename:void
+rect_height	code/clonegame/game.h	/^    int rect_height = 0;$/;"	m	class:Game	typeref:typename:int
+rect_width	code/clonegame/game.h	/^    int rect_width = 0;$/;"	m	class:Game	typeref:typename:int
+rr	code/clonegame/game.h	/^    int rr[11][16] = {{0,0,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1},$/;"	m	class:Game	typeref:typename:int[11][16]
+runLoop	code/clonegame/game.cpp	/^void Game::runLoop()$/;"	f	class:Game	typeref:typename:void
+sampleFromSpritesheet	code/clonegame/player.cpp	/^void Player::sampleFromSpritesheet(TextureManager *texManager, SDL_Texture* bitmapTex, int pos) /;"	f	class:Player	typeref:typename:void
+shutDown	code/clonegame/game.cpp	/^void Game::shutDown()$/;"	f	class:Game	typeref:typename:void
+spriteSheet	code/clonegame/game.h	/^    SDL_Texture* spriteSheet;$/;"	m	class:Game	typeref:typename:SDL_Texture *
+updateGame	code/clonegame/game.cpp	/^void Game::updateGame()$/;"	f	class:Game	typeref:typename:void
+width	code/clonegame/player.h	/^    int width;$/;"	m	class:Player	typeref:typename:int
+x	code/clonegame/game.h	/^	float x;$/;"	m	struct:Vector2	typeref:typename:float
+x	code/clonegame/player.h	/^    int x, y;$/;"	m	class:Player	typeref:typename:int
+y	code/clonegame/game.h	/^	float y;$/;"	m	struct:Vector2	typeref:typename:float
+y	code/clonegame/player.h	/^    int x, y;$/;"	m	class:Player	typeref:typename:int

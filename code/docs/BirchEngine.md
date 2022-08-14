@@ -13,7 +13,7 @@ Manager:
 
   update -> for entity in entities, entity.update
   draw -> for entity in entities, entity.draw
-  refresh -> 
+  refresh ->
     ```
       for i < maxGroups:
         for all elements in groupedEntities[i]:
