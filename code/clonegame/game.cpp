@@ -7,7 +7,7 @@ using namespace std;
 Game::Game()
   :mWindow(nullptr)
   ,mRenderer(nullptr)
-  ,inventory(nullptr)
+  ,inventory()
   ,mTicksCount(0)
   ,mPlayer(0,0, "")
 {
@@ -68,7 +68,7 @@ bool Game::initialize() {
   }
 
   loadFonts();
-  inventory = Inventory(mRenderer);
+  inventory = Inventory(mRenderer, mFont);
   return true;
 }
 
