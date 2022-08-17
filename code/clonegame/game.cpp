@@ -7,6 +7,7 @@ using namespace std;
 Game::Game()
   :mWindow(nullptr)
   ,mRenderer(nullptr)
+  ,inventory(nullptr)
   ,mTicksCount(0)
   ,mPlayer(0,0, "")
 {
@@ -67,6 +68,7 @@ bool Game::initialize() {
   }
 
   loadFonts();
+  inventory = Inventory(mRenderer);
   return true;
 }
 
@@ -146,7 +148,6 @@ void Game::processInput()
       mPlayer.y = new_y;
     }
   }
-
 }
 
 void Game::updateGame()
@@ -183,13 +184,13 @@ void Game::generateOutput()
   WallLayer();
   DrawActor();
   displayFont();
+  inventory.draw();
   SDL_RenderPresent(mRenderer);
 }
 
 void Game::displayFont() {
   SDL_Surface* text;
   string pos = to_string(mPlayer.x) + "," + to_string(mPlayer.y) + ":" + debug_string;
-  std::cout << "DEBUG STRING" << debug_string << endl;
 
   SDL_Color color = {1, 0, 0};
   text = TTF_RenderText_Solid(mFont, pos.c_str(), color);
@@ -304,9 +305,6 @@ void Game::WallLayer() {
     for (int j = 0; j <16; j++) {
       if(rr[i][j] == 1) {
         texManager.ClipTexture(bitmapTex, 0, 0, x_w, x_h, coord_y, coord_x, w, h);
-        int curr_w, curr_h;
-        SDL_QueryTexture(bitmapTex, NULL, NULL, &curr_w, &curr_h);
-        cout << curr_w << " " << curr_h << " " << endl;
       }
       coord_y += w;
     }

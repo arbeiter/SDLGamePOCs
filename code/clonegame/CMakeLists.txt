@@ -4,6 +4,8 @@ add_executable (clonegame
   game.h
   player.h
   player.cpp
+  inventory.h
+  inventory.cpp
   textureManager.h
   textureManager.cpp
 )
