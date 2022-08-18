@@ -113,6 +113,10 @@ void Game::processInput()
       case SDL_QUIT:
         mIsRunning = false;
         break;
+      case SDL_MOUSEMOTION:
+        Uint32 buttons;
+        buttons = SDL_GetMouseState(&m_mouseX,&m_mouseY);
+        break;
     }
 
     // Get state of keyboard
@@ -185,6 +189,7 @@ void Game::generateOutput()
   DrawActor();
   displayFont();
   inventory.draw();
+  inventory.computeIntersection(m_mouseX, m_mouseY);
   SDL_RenderPresent(mRenderer);
 }
 

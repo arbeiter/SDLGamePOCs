@@ -11,6 +11,10 @@ using namespace std;
 struct ItemStats {
     int itemCount;
     string itemName;
+    int top_left_x;
+    int top_left_y;
+    int width;
+    int height;
 };
 
 class Inventory {
@@ -26,6 +30,7 @@ class Inventory {
       SDL_QueryTexture(bitmapTex, NULL, NULL, &wi, &hi);
       tex_w = wi;
       tex_h = hi;
+      highlighted_index = -1;
     }
 
     void draw();
@@ -33,11 +38,13 @@ class Inventory {
     void loadItemStats();
     void drawItem(SDL_Rect &srcrect, int width, int item_idx);
     void drawCount(SDL_Rect &srcrect, int count);
+    void computeIntersection(int x, int y);
 
   private:
     void drawChrome();
     void drawItems(int w, int h);
     void drawItem();
+    int highlighted_index;
     SDL_Renderer *mRenderer;
     int width;
     int height;

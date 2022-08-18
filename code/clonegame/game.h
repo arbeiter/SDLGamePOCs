@@ -76,6 +76,8 @@ class Game
     SDL_Window* mWindow;
     SDL_Renderer* mRenderer;
     TTF_Font* mFont;
+    int m_mouseX;
+    int m_mouseY;
 
     int mTicksCount;
     SDL_Texture* LoadTexture(const char* fileName);

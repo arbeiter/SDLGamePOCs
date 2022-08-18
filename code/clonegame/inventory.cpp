@@ -8,12 +8,12 @@
 
 void Inventory::loadItemStats() {
   itemStats.clear();
-  itemStats.push_back({3, "Bag"});
-  itemStats.push_back({2, "Belt"});
-  itemStats.push_back({10, "Helm"});
-  itemStats.push_back({2, "Armor"});
-  itemStats.push_back({1, "Iron Boot"});
-  itemStats.push_back({4, "Iron Helment"});
+  itemStats.push_back({3, "Bag", 0, 0, 0, 0});
+  itemStats.push_back({2, "Belt", 0, 0, 0, 0});
+  itemStats.push_back({10, "Helm", 0, 0, 0, 0});
+  itemStats.push_back({2, "Armor", 0, 0, 0, 0});
+  itemStats.push_back({1, "Iron Boot", 0, 0, 0, 0});
+  itemStats.push_back({4, "Iron Helment", 0, 0, 0, 0});
 }
 
 void Inventory::draw() {
@@ -74,6 +74,28 @@ void Inventory::drawItems(int w, int h) {
   }
 }
 
+void Inventory::computeIntersection(int x, int y) {
+  int tlx = itemStats[0].top_left_x;
+  int tly = itemStats[0].top_left_y;
+  int tr_x = itemStats[0].top_left_x + itemStats[0].width;
+  int tr_y = itemStats[0].top_left_y + itemStats[0].height;
+
+  int intersect = -1;
+  for(int i = 0; i < itemStats.size(); i++) {
+    tlx = itemStats[i].top_left_x;
+    tly = itemStats[i].top_left_y;
+    tr_x = itemStats[i].top_left_x + itemStats[i].width;
+    tr_y = itemStats[i].top_left_y + itemStats[i].height;
+    bool x_inside = (x >= tlx && x <= tr_x);
+    bool y_inside = (y >= tly && y <= tr_y);
+    if(x_inside && y_inside) {
+      intersect = i;
+      break;
+    }
+  }
+  highlighted_index = intersect;
+}
+
 void Inventory::drawItem(SDL_Rect &srcrect, int width, int item_idx) {
     SDL_Rect inner_rect;
     inner_rect.x = srcrect.x + 3;
@@ -84,19 +106,27 @@ void Inventory::drawItem(SDL_Rect &srcrect, int width, int item_idx) {
     SDL_SetRenderDrawColor(mRenderer, 1, 1, 1, 1);
     SDL_RenderFillRect(mRenderer, &inner_rect);
 
-    // given the item's index
-    // item height = (int)(tex_h / num_items)
-    // item width = (int)(tex_w)
     int num_items = itemStats.size();
     int abs_w = tex_w;
     int abs_h = 32;
     int tex_offset_x = 0;
     int tex_offset_y = item_idx * abs_h;
 
+    int final_x = inner_rect.x + 1;
+    int final_y = inner_rect.y + 2;
+    int final_width = width - 8;
+    int final_height = width - 7;
     texManager->ClipTexture(bitmapTex,
-                            tex_offset_x, tex_offset_y, abs_w, abs_h,
-                            inner_rect.x + 1, inner_rect.y + 2, width - 8, width - 7);
+                            tex_offset_x, tex_offset_y,
+                            abs_w, abs_h,
+                            final_x, final_y,
+                            final_width, final_height);
+
     drawCount(srcrect, itemStats[item_idx].itemCount);
+    itemStats[item_idx].top_left_x = final_x;
+    itemStats[item_idx].top_left_y = final_y;
+    itemStats[item_idx].width = final_width;
+    itemStats[item_idx].height = final_height;
 }
 
 void Inventory::drawCount(SDL_Rect &srcrect, int count) {
