@@ -13,6 +13,7 @@ Game::Game()
 {
 }
 
+// rgb(245,157,0)
 
 // TODO: Move to class
 std::vector<std::tuple<int, int, int, int>> collectable_positions;

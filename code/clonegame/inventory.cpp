@@ -97,13 +97,19 @@ void Inventory::computeIntersection(int x, int y) {
 }
 
 void Inventory::drawItem(SDL_Rect &srcrect, int width, int item_idx) {
+    //SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_ADD);
+
     SDL_Rect inner_rect;
     inner_rect.x = srcrect.x + 3;
     inner_rect.y = srcrect.y + 3;
     inner_rect.w = width - 6;
     inner_rect.h = width - 6;
 
-    SDL_SetRenderDrawColor(mRenderer, 1, 1, 1, 1);
+    if(item_idx == highlighted_index) {
+      SDL_SetRenderDrawColor(mRenderer, 245, 157, 0, 1);
+    } else {
+      SDL_SetRenderDrawColor(mRenderer, 1, 1, 1, 1);
+    }
     SDL_RenderFillRect(mRenderer, &inner_rect);
 
     int num_items = itemStats.size();
@@ -127,6 +133,7 @@ void Inventory::drawItem(SDL_Rect &srcrect, int width, int item_idx) {
     itemStats[item_idx].top_left_y = final_y;
     itemStats[item_idx].width = final_width;
     itemStats[item_idx].height = final_height;
+    //SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_NONE);
 }
 
 void Inventory::drawCount(SDL_Rect &srcrect, int count) {
