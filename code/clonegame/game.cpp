@@ -117,7 +117,36 @@ void Game::processInput()
       case SDL_MOUSEMOTION:
         Uint32 buttons;
         buttons = SDL_GetMouseState(&m_mouseX,&m_mouseY);
+        mouseState.sourceX = m_mouseX;
+        mouseState.sourceY = m_mouseY;
         break;
+      case SDL_MOUSEBUTTONDOWN:
+        switch(event.button.button) {
+          case SDL_BUTTON_LEFT:
+            SDL_GetMouseState(&m_mouseX,&m_mouseY);
+            mouseState.sourceX = m_mouseX;
+            mouseState.sourceY = m_mouseY;
+            mouseState.dragMode = true;
+            // check position in inventory squares
+            printf("LEFT %d %d\n", m_mouseX, m_mouseY);
+            break;
+          case SDL_BUTTON_RIGHT:
+            printf("RIGHT\n");
+            break;
+        }
+        break;
+      case SDL_MOUSEBUTTONUP:
+        switch(event.button.button) {
+          case SDL_BUTTON_LEFT:
+            SDL_GetMouseState(&m_mouseX,&m_mouseY);
+            mouseState.sourceX = m_mouseX;
+            mouseState.sourceY = m_mouseY;
+            printf("LEFT RAISED %d %d\n", m_mouseX, m_mouseY);
+            if(mouseState.dragMode == true) {
+              // inventory.check_if_in_destination_slot
+              mouseState.dragMode = false;
+            }
+        }
     }
 
     // Get state of keyboard

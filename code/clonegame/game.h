@@ -13,6 +13,15 @@ struct Vector2
 	float y;
 };
 
+struct MouseState {
+  float sourceX;
+  float sourceY;
+  float destinationX;
+  float destinationY;
+  bool dragMode;
+  int selectedIndex;
+};
+
 class Game
 {
   public:
@@ -79,6 +88,7 @@ class Game
     int m_mouseX;
     int m_mouseY;
 
+    MouseState mouseState { -1, -1, false, -1 };
     int mTicksCount;
     SDL_Texture* LoadTexture(const char* fileName);
 };

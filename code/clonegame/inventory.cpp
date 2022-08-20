@@ -1,10 +1,15 @@
 #include "inventory.h"
 
+// TODO: Load item stats from a file instead
 // TODO: RefreshDisplay doesn't update the size of the items
 // TODO: Click and drag behavior, hook into SDL events inside the class
 // TODO: Add orientation overlay: Top left or top right
 // Move font rendering to a Text class
 // Add item equipped tray
+
+// TODO: Use STB_Img to blur the background or some image processing shiz instead of
+// having to do that in gimp
+// TODO: Use STB_Rectpack to pack sprites instead of having to do it with gimp
 
 void Inventory::loadItemStats() {
   itemStats.clear();
@@ -75,6 +80,7 @@ void Inventory::drawItems(int w, int h) {
 }
 
 void Inventory::computeIntersection(int x, int y) {
+  // Brute force, could be optimized but who cares with < 1000 items
   int tlx = itemStats[0].top_left_x;
   int tly = itemStats[0].top_left_y;
   int tr_x = itemStats[0].top_left_x + itemStats[0].width;
