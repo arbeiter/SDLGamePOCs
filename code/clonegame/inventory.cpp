@@ -1,9 +1,23 @@
 #include "inventory.h"
 
+// TODO: Once drag is on, start tracking the mouse to draw the texture
+  // Part I: Draw a transparent structure and make it track the mouse
+    // Render the grid to a texture
+    // Set blending on and set transparency to 40%, background to red
+    // (X, Y) co-ordinates are centered at the current mouse location
+
+  // Part II: Make the transparent structure overlap the destination grid position
+    // If the destination (X, Y) co-ordinates are on the map
+      // Validate the destination inside a region
+    // If the destination (X, Y) co-ordinates are within a crafting tray
+      // Snap item to fit
+      // Find the items in the stats tuple and decrement values there
+
 // TODO: Load item stats from a file instead
-// TODO: RefreshDisplay doesn't update the size of the items
+// TODO: RefreshDisplay doesn't update the size of the items, add SDL window resize callback
 // TODO: Click and drag behavior, hook into SDL events inside the class
 // TODO: Add orientation overlay: Top left or top right
+
 // Move font rendering to a Text class
 // Add item equipped tray
 
