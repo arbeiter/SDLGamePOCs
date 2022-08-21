@@ -25,6 +25,8 @@ void Inventory::draw() {
   refreshDisplay();
   // an inventory is always centered on the screen
   drawChrome();
+  drawItems((int)(width/3), (int)(height/3));
+  itemDraggable();
 }
 
 void Inventory::refreshDisplay() {
@@ -37,6 +39,15 @@ void Inventory::refreshDisplay() {
   height = dm.h;
 }
 
+MouseState Inventory::setMouseState(MouseState mState) {
+  // previous mouseState.
+  int prevIndex = mouseState.selectedIndex;
+  mouseState = mState;
+  //printf("Setting mouse state %d %d \n", mouseState.sourceX, mouseState.sourceY);
+  mouseState.selectedIndex = prevIndex;
+  return mouseState;
+}
+
 void Inventory::drawChrome() {
   SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
   SDL_Rect srcrect;
@@ -47,7 +58,6 @@ void Inventory::drawChrome() {
   SDL_SetRenderDrawColor(mRenderer, 104, 104, 104, 150);
   SDL_RenderFillRect(mRenderer, &srcrect);
   SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_NONE);
-  drawItems((int)(width/3), (int)(height/3));
 }
 
 void Inventory::drawItems(int w, int h) {
@@ -79,7 +89,7 @@ void Inventory::drawItems(int w, int h) {
   }
 }
 
-void Inventory::computeIntersection(int x, int y) {
+int Inventory::computeIntersection(int x, int y) {
   // Brute force, could be optimized but who cares with < 1000 items
   int tlx = itemStats[0].top_left_x;
   int tly = itemStats[0].top_left_y;
@@ -100,11 +110,36 @@ void Inventory::computeIntersection(int x, int y) {
     }
   }
   highlighted_index = intersect;
+  return intersect;
+}
+
+void Inventory::itemDraggable() {
+  // if left click enabled and compute_intersection(x, y) == True
+  // 1. Find original item position and print it
+  // 2. Set item draggable to true and get mouse position
+  // Set (x, y) position
+  // Element not transparent
+  if(mouseState.dragMode == true) {
+    int intersect = computeIntersection(mouseState.sourceX, mouseState.sourceY);
+    if(intersect != -1) {
+      mouseState.selectedIndex = intersect;
+      printf("Pressed and now selected Index set to 1 %d %d \n", mouseState.sourceX, mouseState.sourceY);
+    }
+  }
+
+  if(mouseState.selectedIndex != -1 && mouseState.dragMode == false) {
+    printf("Mouse state selected index after release %d\n", mouseState.selectedIndex);
+    printf("Released and now selected Index set to 1 %f %f \n", mouseState.destinationX, mouseState.destinationY);
+    printf("Released and now selected Index set to -1 \n");
+    mouseState.selectedIndex = -1;
+  }
 }
 
 void Inventory::drawItem(SDL_Rect &srcrect, int width, int item_idx) {
-    //SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_ADD);
+// DrawItem: DragItem enabled and check if intersection
 
+    // Mouse Position
+    //SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_ADD);
     SDL_Rect inner_rect;
     inner_rect.x = srcrect.x + 3;
     inner_rect.y = srcrect.y + 3;

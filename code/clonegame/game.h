@@ -13,14 +13,6 @@ struct Vector2
 	float y;
 };
 
-struct MouseState {
-  float sourceX;
-  float sourceY;
-  float destinationX;
-  float destinationY;
-  bool dragMode;
-  int selectedIndex;
-};
 
 class Game
 {

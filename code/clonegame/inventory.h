@@ -8,6 +8,15 @@
 #include <vector>
 using namespace std;
 
+struct MouseState {
+  float sourceX;
+  float sourceY;
+  float destinationX;
+  float destinationY;
+  bool dragMode;
+  int selectedIndex;
+};
+
 struct ItemStats {
     int itemCount;
     string itemName;
@@ -31,6 +40,7 @@ class Inventory {
       tex_w = wi;
       tex_h = hi;
       highlighted_index = -1;
+      //mouseState = { -1, -1, -1, -1, false, -1 };
     }
 
     void draw();
@@ -38,7 +48,9 @@ class Inventory {
     void loadItemStats();
     void drawItem(SDL_Rect &srcrect, int width, int item_idx);
     void drawCount(SDL_Rect &srcrect, int count);
-    void computeIntersection(int x, int y);
+    int computeIntersection(int x, int y);
+    MouseState setMouseState(MouseState mouseState);
+    void itemDraggable();
 
   private:
     void drawChrome();
@@ -54,4 +66,5 @@ class Inventory {
     int tex_h;
     std::vector<ItemStats> itemStats;
     TTF_Font* font;
+    MouseState mouseState;
 };

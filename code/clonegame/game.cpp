@@ -119,6 +119,7 @@ void Game::processInput()
         buttons = SDL_GetMouseState(&m_mouseX,&m_mouseY);
         mouseState.sourceX = m_mouseX;
         mouseState.sourceY = m_mouseY;
+        inventory.computeIntersection(m_mouseX, m_mouseY);
         break;
       case SDL_MOUSEBUTTONDOWN:
         switch(event.button.button) {
@@ -128,7 +129,7 @@ void Game::processInput()
             mouseState.sourceY = m_mouseY;
             mouseState.dragMode = true;
             // check position in inventory squares
-            printf("LEFT %d %d\n", m_mouseX, m_mouseY);
+            printf("LEFT PRESSED %d %d\n", m_mouseX, m_mouseY);
             break;
           case SDL_BUTTON_RIGHT:
             printf("RIGHT\n");
@@ -139,14 +140,18 @@ void Game::processInput()
         switch(event.button.button) {
           case SDL_BUTTON_LEFT:
             SDL_GetMouseState(&m_mouseX,&m_mouseY);
-            mouseState.sourceX = m_mouseX;
-            mouseState.sourceY = m_mouseY;
+            mouseState.destinationX = m_mouseX;
+            mouseState.destinationY = m_mouseY;
             printf("LEFT RAISED %d %d\n", m_mouseX, m_mouseY);
+            printf("LEFT RAISED %f %f\n", mouseState.destinationX, mouseState.destinationY);
+
             if(mouseState.dragMode == true) {
               // inventory.check_if_in_destination_slot
               mouseState.dragMode = false;
             }
+            break;
         }
+        break;
     }
 
     // Get state of keyboard
@@ -182,6 +187,7 @@ void Game::processInput()
       mPlayer.y = new_y;
     }
   }
+  inventory.setMouseState(mouseState);
 }
 
 void Game::updateGame()
@@ -219,7 +225,6 @@ void Game::generateOutput()
   DrawActor();
   displayFont();
   inventory.draw();
-  inventory.computeIntersection(m_mouseX, m_mouseY);
   SDL_RenderPresent(mRenderer);
 }
 
