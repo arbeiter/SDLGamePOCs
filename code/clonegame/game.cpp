@@ -3,6 +3,7 @@
 #include "vector"
 #include "tuple"
 using namespace std;
+//TODO 1: Render inventory.vector using inventory.render in draw()
 
 Game::Game()
   :mWindow(nullptr)
@@ -225,6 +226,7 @@ void Game::generateOutput()
   DrawActor();
   displayFont();
   inventory.draw();
+  inventory.drawDropLocations();
   SDL_RenderPresent(mRenderer);
 }
 

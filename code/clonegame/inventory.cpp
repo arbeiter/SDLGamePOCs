@@ -1,17 +1,18 @@
 #include "inventory.h"
 
+
 // DONE: Once drag is on, start tracking the mouse to draw the texture
   // Part I: Draw a transparent structure and make it track the mouse
     // Render the grid to a texture
     // Set blending on and set transparency to 40%, background to red
     // (X, Y) co-ordinates are centered at the current mouse location
 
-  // Part II: Make the transparent structure overlap the destination grid position
-    // If the destination (X, Y) co-ordinates are on the map
-      // Validate the destination inside a region
-    // If the destination (X, Y) co-ordinates are within a crafting tray
-      // Snap item to fit
-      // Find the items in the stats tuple and decrement values there
+// TODO Crafting: Part II: Make the transparent structure overlap the destination grid position
+  // If the destination (X, Y) co-ordinates are on the map
+    // Validate the destination inside a region
+  // If the destination (X, Y) co-ordinates are within a crafting tray
+    // Snap item to fit
+    // Find the items in the stats tuple and decrement values there
 
 // TODO: Clear texture drawing stuff
 
@@ -140,16 +141,61 @@ void Inventory::itemDraggable() {
     if(intersect != -1) {
       mouseState.selectedIndex = intersect;
       printf("Pressed and now selected Index set to 1 %d %d \n", mouseState.sourceX, mouseState.sourceY);
+      firstLoad = true;
     }
   }
 
-  if(mouseState.selectedIndex != -1 && mouseState.dragMode == false) {
+  // TODO: Remove firstLoad HACK!
+  if(mouseState.selectedIndex != -1 && mouseState.dragMode == false && firstLoad == true) {
+    int prevIndex = mouseState.selectedIndex;
     printf("Mouse state selected index after release %d\n", mouseState.selectedIndex);
     printf("Released and now selected Index set to 1 %f %f \n", mouseState.destinationX, mouseState.destinationY);
     printf("Released and now selected Index set to -1 \n");
+
+    int num_items = itemStats.size();
+    int selected_item_count = itemStats[prevIndex].itemCount;
+    std::cout << "ITEM COUNT OF SELECTED_ITEM " << selected_item_count << std::endl;
+
+    if(selected_item_count > 0 && selected_item_count < num_items) {
+      string itemName = itemStats[prevIndex].itemName;
+      ItemDropLocations curr;
+      curr.drop_x = mouseState.destinationX;
+      curr.drop_y = mouseState.destinationY;
+      curr.item_key = mouseState.selectedIndex;
+      dropLocations.push_back(curr);
+      itemStats[prevIndex].itemCount -= 1;
+    }
+
     // Update locations inventory
     // Update the inventory
     mouseState.selectedIndex = -1;
+  }
+}
+
+void Inventory::drawInventoryItem(int x, int y, int i) {
+    int start_pos_x = 0;
+    int start_pos_y = i * 32; // TODO: Get this from the texture and store it somewhere
+    int abs_w = tex_w;
+    int abs_h = 32;
+
+    SDL_Rect srcrect;
+    srcrect.x = start_pos_x;
+    srcrect.y = start_pos_y;
+    srcrect.w = abs_w;
+    srcrect.h = abs_h;
+
+    SDL_Rect destrect;
+    destrect.x = x;
+    destrect.y = y;
+    destrect.w = abs_w * 2;
+    destrect.h = abs_h * 2;
+    SDL_RenderCopy(mRenderer, bitmapTex, &srcrect, &destrect);
+}
+
+void Inventory::drawDropLocations() {
+  for(int i = 0; i < dropLocations.size(); i++) {
+    ItemDropLocations location = dropLocations[i];
+    drawInventoryItem(location.drop_x, location.drop_y, location.item_key);
   }
 }
 
