@@ -8,6 +8,7 @@
 #include <vector>
 using namespace std;
 
+
 struct MouseState {
   float sourceX;
   float sourceY;
@@ -25,10 +26,16 @@ struct ItemStats {
     int width;
     int height;
 };
+struct ItemDropLocations {
+  float drop_x;
+  float drop_y;
+  string item_key;
+};
 
 class Inventory {
   public:
     Inventory() = default;
+    std::vector<ItemDropLocations> dropLocations;
     Inventory(SDL_Renderer *renderer, TTF_Font *mFont)
       : mRenderer{renderer}, font(mFont), width(3440), height(1440)
     {
@@ -47,11 +54,12 @@ class Inventory {
     void refreshDisplay();
     void loadItemStats();
     void drawItem(SDL_Rect &srcrect, int width, int item_idx);
+    void drawItemInner(SDL_Rect &srcrect, int width, int item_idx, bool isTextured);
+    void renderTextureWithTransform(SDL_Rect &dstrect);
     void drawCount(SDL_Rect &srcrect, int count);
     int computeIntersection(int x, int y);
     MouseState setMouseState(MouseState mouseState);
     void itemDraggable();
-
   private:
     void drawChrome();
     void drawItems(int w, int h);
@@ -67,4 +75,5 @@ class Inventory {
     std::vector<ItemStats> itemStats;
     TTF_Font* font;
     MouseState mouseState;
+    SDL_Texture *texTarget;
 };

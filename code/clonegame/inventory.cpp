@@ -1,6 +1,6 @@
 #include "inventory.h"
 
-// TODO: Once drag is on, start tracking the mouse to draw the texture
+// DONE: Once drag is on, start tracking the mouse to draw the texture
   // Part I: Draw a transparent structure and make it track the mouse
     // Render the grid to a texture
     // Set blending on and set transparency to 40%, background to red
@@ -12,6 +12,8 @@
     // If the destination (X, Y) co-ordinates are within a crafting tray
       // Snap item to fit
       // Find the items in the stats tuple and decrement values there
+
+// TODO: Clear texture drawing stuff
 
 // TODO: Load item stats from a file instead
 // TODO: RefreshDisplay doesn't update the size of the items, add SDL window resize callback
@@ -145,50 +147,100 @@ void Inventory::itemDraggable() {
     printf("Mouse state selected index after release %d\n", mouseState.selectedIndex);
     printf("Released and now selected Index set to 1 %f %f \n", mouseState.destinationX, mouseState.destinationY);
     printf("Released and now selected Index set to -1 \n");
+    // Update locations inventory
+    // Update the inventory
     mouseState.selectedIndex = -1;
   }
 }
 
+void Inventory::renderTextureWithTransform(SDL_Rect &dstrect) {
+  SDL_SetRenderTarget(mRenderer, NULL);
+  //SDL_RenderClear(mRenderer);
+  SDL_SetTextureBlendMode(texTarget, SDL_BLENDMODE_BLEND);
+  SDL_SetTextureAlphaMod(texTarget, 50);
+  SDL_SetTextureColorMod(texTarget, 255, 0, 0);
+  SDL_RenderCopy(mRenderer, texTarget, NULL, &dstrect);
+}
+
+void Inventory::drawItemInner(SDL_Rect &srcrect, int width, int item_idx, bool isTextured) {
+      SDL_Rect inner_rect;
+      inner_rect.x = srcrect.x + 3;
+      inner_rect.y = srcrect.y + 3;
+      inner_rect.w = width - 6;
+      inner_rect.h = width - 6;
+
+      if(isTextured) {
+        texTarget = SDL_CreateTexture(mRenderer,
+                                      SDL_PIXELFORMAT_RGBA8888,
+                                      SDL_TEXTUREACCESS_TARGET,
+                                      inner_rect.w,
+                                      inner_rect.h);
+        SDL_SetRenderTarget(mRenderer, texTarget);
+        SDL_SetRenderDrawColor(mRenderer, 1, 1, 1, 1);
+      } else {
+        if(item_idx == highlighted_index) {
+          SDL_SetRenderDrawColor(mRenderer, 245, 157, 0, 1);
+        } else {
+          SDL_SetRenderDrawColor(mRenderer, 1, 1, 1, 1);
+        }
+      }
+
+      SDL_RenderFillRect(mRenderer, &inner_rect);
+      int abs_w = tex_w;
+      int abs_h = 32;
+      int tex_offset_x = 0;
+      int tex_offset_y = item_idx * abs_h;
+
+      int final_x = inner_rect.x + 1;
+      int final_y = inner_rect.y + 2;
+      int final_width = width - 8;
+      int final_height = width - 7;
+      if(isTextured) {
+          SDL_Rect src;
+          src.x = tex_offset_x;
+          src.y = tex_offset_y;
+          src.w = abs_w;
+          src.h = abs_h;
+
+          SDL_Rect destrect;
+          final_x = mouseState.sourceX;
+          final_y = mouseState.sourceY;
+          destrect.x = 0;
+          destrect.y = 0;
+          destrect.w = inner_rect.w;
+          destrect.h = inner_rect.h;
+          SDL_RenderCopy(mRenderer, bitmapTex, &src, &destrect);
+
+          destrect.x = final_x;
+          destrect.y = final_y;
+          renderTextureWithTransform(destrect);
+      }
+      else {
+        texManager->ClipTexture(bitmapTex,
+                                tex_offset_x, tex_offset_y,
+                                abs_w, abs_h,
+                                final_x, final_y,
+                                final_width, final_height);
+      }
+      itemStats[item_idx].top_left_x = final_x;
+      itemStats[item_idx].top_left_y = final_y;
+      itemStats[item_idx].width = final_width;
+      itemStats[item_idx].height = final_height;
+}
+
 void Inventory::drawItem(SDL_Rect &srcrect, int width, int item_idx) {
-// DrawItem: DragItem enabled and check if intersection
-
-    // Mouse Position
-    //SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_ADD);
-    SDL_Rect inner_rect;
-    inner_rect.x = srcrect.x + 3;
-    inner_rect.y = srcrect.y + 3;
-    inner_rect.w = width - 6;
-    inner_rect.h = width - 6;
-
-    if(item_idx == highlighted_index) {
-      SDL_SetRenderDrawColor(mRenderer, 245, 157, 0, 1);
+    // DrawItem: DragItem enabled and check if intersection
+    if(mouseState.dragMode == true && mouseState.selectedIndex == item_idx) {
+      // draw to texture
+      // srcrect.x and srcrect.y track mouse motion
+      drawItemInner(srcrect, width, item_idx, true);
     } else {
-      SDL_SetRenderDrawColor(mRenderer, 1, 1, 1, 1);
-    }
-    SDL_RenderFillRect(mRenderer, &inner_rect);
-
-    int num_items = itemStats.size();
-    int abs_w = tex_w;
-    int abs_h = 32;
-    int tex_offset_x = 0;
-    int tex_offset_y = item_idx * abs_h;
-
-    int final_x = inner_rect.x + 1;
-    int final_y = inner_rect.y + 2;
-    int final_width = width - 8;
-    int final_height = width - 7;
-    texManager->ClipTexture(bitmapTex,
-                            tex_offset_x, tex_offset_y,
-                            abs_w, abs_h,
-                            final_x, final_y,
-                            final_width, final_height);
-
-    drawCount(srcrect, itemStats[item_idx].itemCount);
-    itemStats[item_idx].top_left_x = final_x;
-    itemStats[item_idx].top_left_y = final_y;
-    itemStats[item_idx].width = final_width;
-    itemStats[item_idx].height = final_height;
-    //SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_NONE);
+      // Mouse Position
+      //SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_ADD);
+      drawItemInner(srcrect, width, item_idx, false);
+      drawCount(srcrect, itemStats[item_idx].itemCount);
+      //SDL_SetTextureBlendMode(texture,SDL_BLENDMODE_NONE);
+  }
 }
 
 void Inventory::drawCount(SDL_Rect &srcrect, int count) {
